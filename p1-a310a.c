@@ -11,7 +11,20 @@ Projektperiode: Efteraarssemester 2020
 #include <math.h>
 #include <time.h>
 
+// Struct definitions
+struct area {
+  int heaviness;
+  int light;
+  int pH;
+  int nutrient;
+  int moistness;
+  double totalArea;
+  double mfoArea;
+};
+
+
 // Custom header files
+#include "input.h"
 #include "flora.h"
 #include "fauna.h"
 
@@ -21,6 +34,8 @@ Projektperiode: Efteraarssemester 2020
 
 /* Main */
 int main(int argc, char const *argv[]) {
+
+  struct area area = read_input();
 
   printf("P1 Projekt test\n");
 
