@@ -1,18 +1,17 @@
-﻿Dansk navn;Latinsk navn;Et-aarig;To-aarig;Fleraarig;Nytteplante (1-9);Sandjord (1-3);Mellemting (4-7);Lerjord (8-10);Sol;Halvskygge;Skygge;Kalkholdig jord
-Blaahat;Knautia arvensis;0;0;1;1;0;1;0;1;1;0;0
-Kaellingetand;Lotus corniculatus;0;0;1;1;1;0;0;1;0;0;0
-Alm. knopurt;Centaurea jacea;0;0;1;1;0;0;1;1;0;0;0
-Kornblomst;Centaurea cyanus;1;0;0;1;0;1;0;1;1;0;0
-Alm. slangehoved;Echium vulgare;0;1;0;1;0;1;0;1;0;0;0
-Hoer;Linum usitatissimum;0;0;1;1;1;0;0;1;0;0;0
-Dagpragtstjerne;Silene dioica;0;0;1;1;0;0;1;1;1;0;0
-Alm. mjoedurt;Filipendula ulmaria;0;0;1;1;0;0;1;1;1;0;0
-Blodroed storkenaeb;Geranium sanguineum;0;0;1;1;0;0;1;1;1;0;1
-Aksaerenpris;Veronica spicata;0;0;1;1;0;1;0;1;0;0;1
-Skov-forglemmigej;Myosotis sylvatica;0;0;1;1;0;0;1;1;1;0;0
-Alm. hjulkrone;Borago officinalis;1;0;0;1;0;0;1;1;1;0;0
-Humle-sneglebælg;Medicago lupulina;0;1;0;1;0;1;0;1;0;0;0
-Buskvedbend;HEDERA HELIX 'ARBORESCENS';0;0;1;;0;1;0;1;0;1;0
-Kulsukker;SYMPHYTUM GRANDIFLORUM;;;;;0;0;1;1;1;1;0
-trædebregne;LEPTINELLA SQUALIDA 'COTULA SQUALIDA';;;;;0;0;1;1;1;0;0
-;;;;;;;;;;;;
+Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvælstof (N),Fugtighedstal (F)
+Blaahat,Knautia arvensis,3,6,7,-1,4,4
+Kaellingetand,Lotus corniculatus,3,3,7,7,3,4
+Alm. knopurt,Centaurea jacea,3,7,7,-1,-1,-1
+Kornblomst,Centaurea cyanus,1,6,7,-1,-1,-1
+Alm. slangehoved,Echium vulgare,2,6,9,8,4,4
+Hoer,Linum usitatissimum,3,2,8,6,6,5
+Dagpragtstjerne,Silene dioica,3,7,-1,7,4,6
+Alm. mjoedurt,Filipendula ulmaria,3,8,6,6,5,8
+Blodroed storkenaeb,Geranium sanguineum,3,5,7,8,3,3
+Aksaerenpris,Veronica spicata,3,6,7,7,2,3
+Skov-forglemmigej,Myosotis sylvatica,3,6,7,7,2,3
+Alm. hjulkrone,Borago officinalis,1,9,8,7,6,4
+Humle-sneglebaelg,Medicago lupulina,2,5,7,8,-1,4
+Buskvedbend,Hedera Helix 'Arborescens',3,6,4,6,6,5
+Kulsukker,Symphytum Grandiflorum,3,7,7,7,7,7
+Traedebregne,Leptinella Squalida 'Cotula Squalida',3,7,7,7,7,7
