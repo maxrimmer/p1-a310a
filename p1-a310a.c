@@ -29,9 +29,14 @@ enum mfoTypes {
 };
 
 struct flora {
-  char* danishName;
-  char* latinName;
+  char danishName[20];
+  char latinName[20];
   int lifespan;
+  int heaviness;
+  int light;
+  int pH;
+  int nutrient;
+  int moistness;
   enum mfoTypes mfoType;
 };
 
