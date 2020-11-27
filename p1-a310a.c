@@ -22,6 +22,25 @@ struct area {
   double mfoArea;
 };
 
+enum mfoTypes {
+  mfoBreammer,
+  mfoBrak,
+  mfoBestoeverbrak
+};
+
+struct flora {
+  char* danishName;
+  char* latinName;
+  int lifespan;
+  enum mfoTypes mfoType;
+};
+
+struct fauna {
+  char* danishName;
+  char* latinName;
+  struct flora *plants;
+};
+
 
 // Custom header files
 #include "input.h"

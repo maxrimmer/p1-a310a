@@ -1,3 +1,5 @@
+#define FAUNA_DATABASE "fauna.csv"
+
 /*
 Function declarations for accessing and modifying fauna database
 */
