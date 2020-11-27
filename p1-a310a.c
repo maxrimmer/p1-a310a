@@ -29,8 +29,8 @@ enum mfoTypes {
 };
 
 struct flora {
-  char danishName[20];
-  char latinName[20];
+  char danishName[40];
+  char latinName[40];
   int lifespan;
   int heaviness;
   int light;

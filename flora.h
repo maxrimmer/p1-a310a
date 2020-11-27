@@ -16,12 +16,12 @@ void read_flora_database(struct flora *flora) {
     while (fgets(line, LINE_STR_LEN, flora_file) != NULL) {
       struct flora readFlora;
 
-      sscanf(line, "%[^,],%[^,],%d,%d,%d,%d,%d,%d",
+      sscanf(line, " %[^,] , %[^,] ,%d,%d,%d,%d,%d,%d",
       readFlora.danishName, readFlora.latinName, &readFlora.lifespan,
       &readFlora.heaviness, &readFlora.light,    &readFlora.pH,
       &readFlora.nutrient,  &readFlora.moistness);
 
-      printf("%-20s | %-20s | %2d | %2d | %2d | %2d | %2d | %2d\n",
+      printf("%-40s | %-40s | %2d | %2d | %2d | %2d | %2d | %2d\n",
       readFlora.danishName, readFlora.latinName, readFlora.lifespan,
       readFlora.heaviness, readFlora.light,    readFlora.pH,
       readFlora.nutrient,  readFlora.moistness);
