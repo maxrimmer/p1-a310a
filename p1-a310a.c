@@ -10,6 +10,7 @@ Projektperiode: Efteraarssemester 2020
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <string.h>
 
 // Struct definitions
 struct area {
@@ -28,16 +29,33 @@ enum mfoTypes {
   mfoBestoeverbrak
 };
 
+enum roedliste {
+  RE,
+  CR,
+  EN,
+  VU,
+  NT,
+  DD,
+  LC,
+  NA,
+  NE
+};
+
 struct flora {
-  char* danishName;
-  char* latinName;
+  char danishName[40];
+  char latinName[40];
   int lifespan;
+  int heaviness;
+  int light;
+  int pH;
+  int nutrient;
+  int moistness;
   enum mfoTypes mfoType;
 };
 
 struct fauna {
-  char* danishName;
-  char* latinName;
+  char danishName[40];
+  char latinName[40];
   struct flora *plants;
 };
 
