@@ -76,7 +76,7 @@ int main(int argc, char const *argv[]) {
 
   printf("P1 Projekt test\n");
 
-  printFloraTest();
+  printFloraTest(area);
   printFaunaTest();
 
   return EXIT_SUCCESS;
