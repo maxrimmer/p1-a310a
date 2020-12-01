@@ -15,6 +15,8 @@ void printFaunaTest() {
   int i;
   struct fauna fauna[HASH_ARRAY_SIZE];
   struct flora flora[HASH_ARRAY_SIZE];
+    
+  /* Empties fauna array */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     fauna[i] = (struct fauna) {"", "", 0, flora};
   }
@@ -56,8 +58,8 @@ void printFaunaArray(struct fauna *fauna) {
 
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(fauna[i].latinName, "") != 0) {
-      printf("%-40s | %-40s | roedliste | nytteplante 1 | nytteplante 2 |\n",
-      fauna[i].danishName, fauna[i].latinName);
+      printf("%-40s | %-40s | %2i | nytteplante 1 | nytteplante 2 |\n",
+      fauna[i].danishName, fauna[i].latinName, fauna[i].endangerlvl);
     }
   }
 }
