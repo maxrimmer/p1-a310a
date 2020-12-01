@@ -8,6 +8,7 @@ Function declarations for accessing and modifying fauna database
 void printFaunaTest();
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
+char *endanger_name (enum roedliste endangerlvl);
 
 
 void printFaunaTest() {
@@ -61,8 +62,33 @@ void printFaunaArray(struct fauna *fauna) {
 
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(fauna[i].latinName, "") != 0) {
-      printf("%-40s | %-40s | %2i | nytteplante 1 | nytteplante 2 |\n",
-      fauna[i].danishName, fauna[i].latinName, fauna[i].endangerlvl);
+      printf("%-40s | %-40s | %2s | nytteplante 1 | nytteplante 2 |\n",
+      fauna[i].danishName, fauna[i].latinName, endanger_name(fauna[i].endangerlvl));
     }
   }
+}
+
+char *endanger_name (enum roedliste endangerlvl){
+    switch (endangerlvl) {
+        case RE:
+            return "RE";
+        case CR:
+            return "CR";
+        case EN:
+            return "EN";
+        case VU:
+            return "VU";
+        case NT:
+            return "NT";
+        case DD:
+            return "DD";
+        case LC:
+            return "LC";
+        case NA:
+            return "NA";
+        case NE:
+            return "NE";
+        default:
+            return "Error";
+    }
 }
