@@ -12,6 +12,11 @@ Projektperiode: Efteraarssemester 2020
 #include <time.h>
 #include <string.h>
 
+#define HASH_ARRAY_SIZE 1000
+
+/* Prototypes */
+int hash(char *str);
+
 // Struct definitions
 struct area {
   int heaviness;
@@ -66,10 +71,6 @@ struct fauna {
 #include "flora.h"
 #include "fauna.h"
 
-/* Prototypes */
-
-
-
 /* Main */
 int main(int argc, char const *argv[]) {
 
@@ -81,4 +82,17 @@ int main(int argc, char const *argv[]) {
   printFaunaTest();
 
   return EXIT_SUCCESS;
+}
+
+/* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
+int hash(char *str) {
+    unsigned long hash = 5381;
+    int c;
+
+    while ((c = *str++))
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+        /* Hash is trimmed to the HASHTABLE_SIZE */
+        hash %= HASH_ARRAY_SIZE;
+
+    return hash;
 }
