@@ -30,6 +30,7 @@ void read_fauna_database(struct fauna *fauna) {
     int hashName;
     char* latinName;
     struct fauna read_fauna;
+    int roed_danger;
     
     FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
     
@@ -39,7 +40,9 @@ void read_fauna_database(struct fauna *fauna) {
         fgets(line, STR_LENGTH, fauna_ptr);
         
         while (fgets(line, STR_LENGTH, fauna_ptr) != NULL){
-            sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &read_fauna.endangerlvl);
+            sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
+            
+            read_fauna.endangerlvl = (enum roedliste)roed_danger;
             
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
