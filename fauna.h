@@ -14,7 +14,7 @@ void read_fauna_database(struct fauna *fauna) {
     char* latinName;
     struct fauna read_fauna;
     
-    FILE *fauna_ptr = fopen("FAUNA_DATABASE", "r");
+    FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
     
     if (fauna_ptr != NULL){
         
@@ -35,7 +35,7 @@ void read_fauna_database(struct fauna *fauna) {
     }
     
     else{
-        printf("Error\n");
+        printf("Error! Can't open file\n");
     }
         
 }
@@ -44,8 +44,9 @@ void printFaunaTest() {
   printf("Flora header file working\n");
   int i;
   struct fauna fauna[HASH_ARRAY_SIZE];
+  struct flora flora[HASH_ARRAY_SIZE];
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
-    fauna[i] = (struct fuana) {};
+    fauna[i] = (struct fauna) {"", "", 0, flora};
   }
 
   read_fauna_database(fauna);
