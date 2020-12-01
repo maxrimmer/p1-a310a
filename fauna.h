@@ -19,7 +19,7 @@ void printFaunaTest() {
         fgets(line, STR_LENGTH, fauna_array);
         
         while (fgets(line, STR_LENGTH, fauna_array) != NULL){
-            sscanf(line, " %[^,] , %[^,] , *%s , %[^,] %[^,]", read_fauna.danishName);
+            sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &read_fauna.endangerlvl);
             
             printf("%s\n", read_fauna.danishName);
             
