@@ -56,7 +56,7 @@ struct flora {
 struct fauna {
   char danishName[40];
   char latinName[40];
-  struct roedliste endangerlvl;
+  enum roedliste endangerlvl;
   struct flora *plants;
 };
 
