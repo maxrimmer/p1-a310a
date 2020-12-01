@@ -11,6 +11,7 @@ void read_flora_database(struct flora *flora) {
   int hashName;
   char* latinName;
   char line[LINE_STR_LEN];
+  struct flora readFlora;
 
   FILE *flora_file;
   flora_file = fopen(FLORA_DATABASE, "r");
@@ -21,7 +22,6 @@ void read_flora_database(struct flora *flora) {
     /* We skip the first line, containing headers of the file */
     fgets(line, LINE_STR_LEN, flora_file);
     while (fgets(line, LINE_STR_LEN, flora_file) != NULL) {
-      struct flora readFlora;
 
       sscanf(line, " %[^,] , %[^,] , %d , %d , %d , %d , %d , %d ",
       readFlora.danishName, readFlora.latinName, &readFlora.lifespan,
@@ -59,7 +59,6 @@ void printFloraTest() {
   }
 
   read_flora_database(flora);
-
   printFloraArray(flora);
 }
 
