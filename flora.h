@@ -32,10 +32,6 @@ void read_flora_database(struct flora *flora) {
       hashName = hash(latinName);
       flora[hashName] = readFlora;
 
-      printf("%-40s | %-40s | %2d | %2d | %2d | %2d | %2d | %2d\n",
-      readFlora.danishName, readFlora.latinName, readFlora.lifespan,
-      readFlora.heaviness, readFlora.light,    readFlora.pH,
-      readFlora.nutrient,  readFlora.moistness);
     }
 
   }
