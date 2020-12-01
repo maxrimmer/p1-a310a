@@ -10,6 +10,7 @@ Projektperiode: Efteraarssemester 2020
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <string.h>
 
 // Struct definitions
 struct area {
@@ -41,8 +42,8 @@ struct flora {
 };
 
 struct fauna {
-  char* danishName;
-  char* latinName;
+  char danishName[40];
+  char latinName[40];
   struct flora *plants;
 };
 
