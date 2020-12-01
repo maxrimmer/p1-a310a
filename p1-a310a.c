@@ -92,7 +92,7 @@ int hash(char *str) {
     while ((c = *str++))
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
         /* Hash is trimmed to the HASHTABLE_SIZE */
-        hash %= HASH_ARRAY_SIZE;
+    hash %= HASH_ARRAY_SIZE;
 
     return hash;
 }
