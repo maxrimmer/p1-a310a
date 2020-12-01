@@ -6,7 +6,22 @@
 Function declarations for accessing and modifying fauna database
 */
 void printFaunaTest();
+void read_fauna_database(struct fauna *fauna);
+void printFaunaArray(struct fauna *fauna);
 
+
+void printFaunaTest() {
+  printf("Fauna header file working\n");
+  int i;
+  struct fauna fauna[HASH_ARRAY_SIZE];
+  struct flora flora[HASH_ARRAY_SIZE];
+  for (i = 0; i < HASH_ARRAY_SIZE; i++) {
+    fauna[i] = (struct fauna) {"", "", 0, flora};
+  }
+
+  read_fauna_database(fauna);
+  printFaunaArray(fauna);
+}
 
 void read_fauna_database(struct fauna *fauna) {
     char line[STR_LENGTH];
@@ -27,10 +42,6 @@ void read_fauna_database(struct fauna *fauna) {
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
             fauna[hashName] = read_fauna;
-            
-            printf("%s %s\n", read_fauna.danishName, read_fauna.latinName);
-            
-            
         }
     }
     
@@ -40,29 +51,13 @@ void read_fauna_database(struct fauna *fauna) {
         
 }
 
-void printFaunaTest() {
-  printf("Flora header file working\n");
-  int i;
-  struct fauna fauna[HASH_ARRAY_SIZE];
-  struct flora flora[HASH_ARRAY_SIZE];
-  for (i = 0; i < HASH_ARRAY_SIZE; i++) {
-    fauna[i] = (struct fauna) {"", "", 0, flora};
-  }
-
-  read_fauna_database(fauna);
-  /*printFaunaArray(flora);*/
-}
-
-/*void printFaunaArray(struct flora *flora) {
+void printFaunaArray(struct fauna *fauna) {
   int i;
 
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
-    if (strcmp(flora[i].latinName, "") != 0) {
-      printf("%-40s | %-40s | %2d | %2d | %2d | %2d | %2d | %2d\n",
-      flora[i].danishName, flora[i].latinName, flora[i].lifespan,
-      flora[i].heaviness, flora[i].light,    flora[i].pH,
-      flora[i].nutrient,  flora[i].moistness);
+    if (strcmp(fauna[i].latinName, "") != 0) {
+      printf("%-40s | %-40s | roedliste | nytteplante 1 | nytteplante 2 |\n",
+      fauna[i].danishName, fauna[i].latinName);
     }
   }
 }
-*/
