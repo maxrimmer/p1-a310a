@@ -29,15 +29,15 @@ enum mfoTypes {
 };
 
 enum roedliste {
-RE,
-CR,
-EN,
-VU,
-NT,
-DD,
-LC,
-NA,
-NE
+  RE,
+  CR,
+  EN,
+  VU,
+  NT,
+  DD,
+  LC,
+  NA,
+  NE
 };
 
 struct flora {
