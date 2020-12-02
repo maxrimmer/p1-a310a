@@ -42,22 +42,22 @@ void read_flora_database(struct flora *flora) {
 
 /* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
 int hash(char *str) {
-    unsigned long hash = 5381;
-    int c;
+  unsigned long hash = 5381;
+  int c;
 
-    while ((c = *str++))
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-        /* Hash is trimmed to the HASHTABLE_SIZE */
-    hash %= FLORA_HASH_ARRAY_SIZE;
+  while ((c = *str++))
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  /* Hash is trimmed to the HASHTABLE_SIZE */
+  hash %= FLORA_HASH_ARRAY_SIZE;
 
-    return hash;
+  return hash;
 }
 
 void flora_matching(struct flora *flora_array, struct area area, char resultlist[100][40]){
   int a, count = 0;
   for(a = 0; a < FLORA_HASH_ARRAY_SIZE; a++){
     if(strcmp(flora_array[a].latinName, "") != 0){
-      if(is_match_flora(flora_array[a], area)){      
+      if(is_match_flora(flora_array[a], area)){
         strcpy(resultlist[count], flora_array[a].latinName);
         //printf("hey HEY");
         count++;
@@ -78,10 +78,10 @@ int is_match_flora(struct flora flora, struct area area){
 
   if(!flora_matching_checking(area.nutrient, flora.nutrient) && flora.nutrient != -1)
     return 0;
-    
+
   if(!flora_matching_checking(area.pH, flora.pH) && flora.pH != -1)
     return 0;
-  
+
   return 1;
 }
 
