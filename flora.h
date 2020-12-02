@@ -67,19 +67,18 @@ void flora_matching(struct flora *flora_array, struct area area, char resultlist
 }
 
 int is_match_flora(struct flora flora, struct area area){
-  /* printf("\n%s: Heavy: %d - %d = %d\n", flora.latinName, area.heaviness, flora.heaviness, area.heaviness - flora.heaviness); */
   if(!flora_matching_checking(area.heaviness, flora.heaviness) && flora.heaviness != -1)
     return 0;
-  /* printf("%s: Light: %d - %d = %d\n", flora.latinName, area.light, flora.light, area.light - flora.light); */
+
   if(!flora_matching_checking(area.light, flora.light) && flora.light != -1)
     return 0;
-  /* printf("%s: Moist: %d - %d = %d\n", flora.latinName, area.moistness, flora.moistness, area.moistness - flora.moistness); */
+
   if(!flora_matching_checking(area.moistness, flora.moistness) && flora.moistness != -1)
     return 0;
-  /* printf("%s: Nut: %d - %d = %d\n", flora.latinName, area.nutrient, flora.nutrient, area.nutrient - flora.nutrient); */
+
   if(!flora_matching_checking(area.nutrient, flora.nutrient) && flora.nutrient != -1)
     return 0;
-  /* printf("%s: pH: %d - %d = %d\n", flora.latinName, area.pH, flora.pH, area.pH - flora.pH); */
+    
   if(!flora_matching_checking(area.pH, flora.pH) && flora.pH != -1)
     return 0;
   
