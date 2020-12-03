@@ -2,6 +2,7 @@
 P1 Projekt
 Gruppe: A310a
 Projektperiode: Efteraarssemester 2020
+Aalborg Universitet: Datalogi 1. semester
 */
 
 /* Includes */
