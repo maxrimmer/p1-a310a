@@ -5,6 +5,9 @@
 Function declarations for accessing and modifying flora database
 */
 int hash(char *str);
+void flora_matching(struct flora *flora_array, struct area area, char resultlist[100][40]);
+int is_match_flora(struct flora flora_array, struct area area);
+int flora_matching_checking(int area, int flora_array);
 void printFloraArray(struct flora *flora);
 
 void read_flora_database(struct flora *flora) {
@@ -45,14 +48,54 @@ int hash(char *str) {
     while ((c = *str++))
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
         /* Hash is trimmed to the HASHTABLE_SIZE */
-        hash %= FLORA_HASH_ARRAY_SIZE;
+    hash %= FLORA_HASH_ARRAY_SIZE;
 
     return hash;
 }
 
-void printFloraTest() {
+void flora_matching(struct flora *flora_array, struct area area, char resultlist[100][40]){
+  int a, count = 0;
+  for(a = 0; a < FLORA_HASH_ARRAY_SIZE; a++){
+    if(strcmp(flora_array[a].latinName, "") != 0){
+      if(is_match_flora(flora_array[a], area)){      
+        strcpy(resultlist[count], flora_array[a].latinName);
+        //printf("hey HEY");
+        count++;
+      }
+    }
+  }
+}
+
+int is_match_flora(struct flora flora, struct area area){
+  if(!flora_matching_checking(area.heaviness, flora.heaviness) && flora.heaviness != -1)
+    return 0;
+
+  if(!flora_matching_checking(area.light, flora.light) && flora.light != -1)
+    return 0;
+
+  if(!flora_matching_checking(area.moistness, flora.moistness) && flora.moistness != -1)
+    return 0;
+
+  if(!flora_matching_checking(area.nutrient, flora.nutrient) && flora.nutrient != -1)
+    return 0;
+    
+  if(!flora_matching_checking(area.pH, flora.pH) && flora.pH != -1)
+    return 0;
+  
+  return 1;
+}
+
+int flora_matching_checking(int area_attribute, int flora_attribute){
+  if((area_attribute - flora_attribute) <= 1 && (area_attribute - flora_attribute) >= -1){
+    return 1;
+  }
+  return 0;
+}
+
+void printFloraTest(struct area area) {
   printf("Flora header file working\n");
   int i;
+  char result[100][40];
   struct flora flora[FLORA_HASH_ARRAY_SIZE];
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     flora[i] = (struct flora) {"", "", 0, 0, 0, 0, 0, 0};
@@ -60,6 +103,18 @@ void printFloraTest() {
 
   read_flora_database(flora);
   printFloraArray(flora);
+
+  for(i = 0; i < 100; i++){
+    strcpy(result[i], " ");
+  }
+    //result[i] = "";
+  flora_matching(flora, area, result);
+  for(i = 0; i < 100; i++){
+    if((strcmp(result[i], " ") != 0)){
+      printf("%s\n", result[i]);
+    }
+    //printf("%s", result);
+  }
 }
 
 void printFloraArray(struct flora *flora) {
