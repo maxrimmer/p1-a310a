@@ -20,8 +20,8 @@ struct area {
   int pH;
   int nutrient;
   int moistness;
-  double totalArea;
-  double mfoArea;
+  int totalArea;
+  int mfoArea;
 };
 
 enum mfoTypes {
