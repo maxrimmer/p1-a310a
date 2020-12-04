@@ -10,6 +10,7 @@ void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
 char *endanger_name (enum roedliste endangerlvl);
 void to_upper (struct fauna *fauna);
+void read_plants (struct fauna *fauna, char *line);
 
 
 void printFaunaTest() {
@@ -20,7 +21,7 @@ void printFaunaTest() {
     
   /* Empties fauna array */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
-    fauna[i] = (struct fauna) {"", "", 0, flora};
+    fauna[i] = (struct fauna) {"", "", 0};
   }
 
   read_fauna_database(fauna);
@@ -42,10 +43,11 @@ void read_fauna_database(struct fauna *fauna) {
         fgets(line, STR_LENGTH, fauna_ptr);
         
         while (fgets(line, STR_LENGTH, fauna_ptr) != NULL){
-            sscanf(line, " %[^,] , %[^,] , %i , ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
+            sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
             
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
             
+            read_plants(fauna, line);
             to_upper(&read_fauna);
             
             latinName = read_fauna.latinName;
@@ -56,6 +58,15 @@ void read_fauna_database(struct fauna *fauna) {
     
     else{
         printf("Error! Can't open file\n");
+    }
+}
+
+void read_plants(struct fauna *fauna, char *line){
+    int start_point = strlen(fauna->danishName)+strlen(fauna->latinName)+3;
+    int i;
+    printf(" %lu \n", strlen(fauna->danishName));
+    for (i = start_point; line[i] != '\0'; i++){
+        printf("%c", line[i]);
     }
 }
 
@@ -73,7 +84,7 @@ void printFaunaArray(struct fauna *fauna) {
 
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(fauna[i].latinName, "") != 0) {
-      printf("%-40s | %-40s | %2s | nytteplante 1 | nytteplante 1 |\n",
+      printf("%-40s | %-40s | %2s | nyt | nyt |\n",
       fauna[i].danishName, fauna[i].latinName, endanger_name(fauna[i].endangerlvl));
     }
   }
