@@ -68,7 +68,6 @@ void to_upper(struct fauna *fauna){
     }
 }
 
-
 void printFaunaArray(struct fauna *fauna) {
   int i;
 
