@@ -11,6 +11,7 @@ Projektperiode: Efteraarssemester 2020
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 
 #define HASH_ARRAY_SIZE 1000
 

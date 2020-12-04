@@ -9,6 +9,7 @@ void printFaunaTest();
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
 char *endanger_name (enum roedliste endangerlvl);
+void to_upper (struct fauna *fauna);
 
 
 void printFaunaTest() {
@@ -45,6 +46,8 @@ void read_fauna_database(struct fauna *fauna) {
             
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
             
+            to_upper(&read_fauna);
+            
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
             fauna[hashName] = read_fauna;
@@ -54,8 +57,17 @@ void read_fauna_database(struct fauna *fauna) {
     else{
         printf("Error! Can't open file\n");
     }
-        
 }
+
+/* Function to capitalise latin name */
+void to_upper(struct fauna *fauna){
+    int i = 0;
+    while (fauna->latinName[i] != '\0'){
+        fauna->latinName[i] = toupper(fauna->latinName[i]);
+        i++;
+    }
+}
+
 
 void printFaunaArray(struct fauna *fauna) {
   int i;
