@@ -47,7 +47,7 @@ void read_fauna_database(struct fauna *fauna) {
             
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
             
-            read_plants(fauna, line);
+            read_plants(&read_fauna, line);
             to_upper(&read_fauna);
             
             latinName = read_fauna.latinName;
@@ -62,9 +62,14 @@ void read_fauna_database(struct fauna *fauna) {
 }
 
 void read_plants(struct fauna *fauna, char *line){
-    int start_point = strlen(fauna->danishName)+strlen(fauna->latinName)+3;
-    int i;
-    printf(" %lu \n", strlen(fauna->danishName));
+    int start_point = /* strlen(fauna->danishName)+strlen(fauna->latinName)+ */3;
+    int i = 0;
+    printf("hej");
+    while (fauna->danishName[i] != '\0')
+        i++;
+    printf("%d", i);
+    
+    printf(" %d \n", strlen(fauna->danishName));
     for (i = start_point; line[i] != '\0'; i++){
         printf("%c", line[i]);
     }
