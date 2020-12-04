@@ -1,6 +1,6 @@
 #define FAUNA_DATABASE "fauna.csv"
 #define HASH_ARRAY_SIZE 1000
-#define STR_LENGTH 100
+#define STR_LENGTH 200
 
 /*
 Function declarations for accessing and modifying fauna database
@@ -33,7 +33,7 @@ void read_fauna_database(struct fauna *fauna) {
     int hashName;
     char* latinName;
     struct fauna read_fauna;
-    int roed_danger;
+    int roed_danger, i, j;
     
     FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
     
@@ -46,13 +46,29 @@ void read_fauna_database(struct fauna *fauna) {
             sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
             
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
-            
+            for(i = 0; i < 100; i++){
+                if((read_fauna.plant[i] = (char *)malloc(40*sizeof(char))) == NULL){
+                    printf("Malloc fail");
+                    exit(EXIT_FAILURE);
+                }
+                strcpy(read_fauna.plant[i], ""); 
+            }
             read_plants(&read_fauna, line);
             to_upper(&read_fauna);
+            
             
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
             fauna[hashName] = read_fauna;
+        }
+        for (i = 0; i < HASH_ARRAY_SIZE; i++){
+            if (strcmp(fauna[i].danishName, "") != 0){
+                for(j = 0; j < 100; j++){
+                    /* if(strcmp(fauna[i].plant[j], "") != 0)
+                        printf("%s", fauna[i].plant[j]); */
+                    free(fauna[i].plant[j]);
+                }
+            }
         }
     }
     
@@ -62,19 +78,24 @@ void read_fauna_database(struct fauna *fauna) {
 }
 
 void read_plants(struct fauna *fauna, char *line){
-    int start_point = /* strlen(fauna->danishName)+strlen(fauna->latinName)+ */3;
+    int start_point = (int)strlen(fauna->danishName) + (int)strlen(fauna->latinName) + 4;
     int i = 0;
-    printf("hej");
-    while (fauna->danishName[i] != '\0')
+    int j = start_point;
+    /*køre indtil at der ikke er flere navne på linjen*/
+    while (line[j] != '\0' && i < 100){
+        /*køre indtil at den har fundet plantes navn*/
+        while (line[j] != ',' && line[j] != '\0' && line[j] != '\n' && j < STR_LENGTH){
+            fauna->plant[i][j-start_point] = line[j];
+            j++;
+        }
+        fauna->plant[i][j] = '\0';
+        if(strcmp(fauna->plant[i], "") != 0)
+            printf("%s\n", fauna->plant[i]);
+        j++;
+        start_point = j;
         i++;
-    printf("%d", i);
-    
-    printf(" %d \n", strlen(fauna->danishName));
-    for (i = start_point; line[i] != '\0'; i++){
-        printf("%c", line[i]);
     }
 }
-
 /* Function to capitalise latin name */
 void to_upper(struct fauna *fauna){
     int i = 0;
