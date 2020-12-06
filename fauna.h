@@ -47,11 +47,11 @@ void read_fauna_database(struct fauna *fauna) {
             
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
             for(i = 0; i < FAUNA_PLANTS_ARRAY_SIZE; i++){
-                if((read_fauna.plant[i] = (char *)malloc(40*sizeof(char))) == NULL){
+                if((read_fauna.plants[i] = (char *)malloc(40*sizeof(char))) == NULL){
                     printf("Malloc fail");
                     exit(EXIT_FAILURE);
                 }
-                strcpy(read_fauna.plant[i], ""); 
+                strcpy(read_fauna.plants[i], ""); 
             }
             read_plants(&read_fauna, line);
             to_upper(&read_fauna);
@@ -63,7 +63,7 @@ void read_fauna_database(struct fauna *fauna) {
         for (i = 0; i < HASH_ARRAY_SIZE; i++){
             if (strcmp(fauna[i].danishName, "") != 0){
                 for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
-                    free(fauna[i].plant[j]);
+                    free(fauna[i].plants[j]);
                 }
             }
         }
@@ -81,12 +81,12 @@ void read_plants(struct fauna *fauna, char *line){
     while (line[j] != '\0'){
         /*runs until the plant's name has been found*/
         while (line[j] != ',' && line[j] != '\0' && line[j] != '\n' && j < STR_LENGTH){
-            fauna->plant[i][j - start_point] = line[j];
+            fauna->plants[i][j - start_point] = line[j];
             j++;
         }
-        fauna->plant[i][j] = '\0';
-        if(strcmp(fauna->plant[i], "") != 0)
-            printf("%s\n", fauna->plant[i]);
+        fauna->plants[i][j] = '\0';
+        if(strcmp(fauna->plants[i], "") != 0)
+            printf("%s\n", fauna->plants[i]);
         j++;
         start_point = j;
         i++;
