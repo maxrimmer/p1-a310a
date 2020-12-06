@@ -1,4 +1,5 @@
 #define FAUNA_DATABASE "fauna.csv"
+#define FAUNA_PLANTS_ARRAY_SIZE 100
 #define HASH_ARRAY_SIZE 1000
 #define STR_LENGTH 200
 
@@ -38,7 +39,6 @@ void read_fauna_database(struct fauna *fauna) {
     FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
     
     if (fauna_ptr != NULL){
-        
         /* We skip the first line, containing headers of the file */
         fgets(line, STR_LENGTH, fauna_ptr);
         
@@ -46,7 +46,7 @@ void read_fauna_database(struct fauna *fauna) {
             sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
             
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
-            for(i = 0; i < 100; i++){
+            for(i = 0; i < FAUNA_PLANTS_ARRAY_SIZE; i++){
                 if((read_fauna.plant[i] = (char *)malloc(40*sizeof(char))) == NULL){
                     printf("Malloc fail");
                     exit(EXIT_FAILURE);
@@ -56,22 +56,18 @@ void read_fauna_database(struct fauna *fauna) {
             read_plants(&read_fauna, line);
             to_upper(&read_fauna);
             
-            
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
             fauna[hashName] = read_fauna;
         }
         for (i = 0; i < HASH_ARRAY_SIZE; i++){
             if (strcmp(fauna[i].danishName, "") != 0){
-                for(j = 0; j < 100; j++){
-                    /* if(strcmp(fauna[i].plant[j], "") != 0)
-                        printf("%s", fauna[i].plant[j]); */
+                for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
                     free(fauna[i].plant[j]);
                 }
             }
         }
     }
-    
     else{
         printf("Error! Can't open file\n");
     }
@@ -81,11 +77,11 @@ void read_plants(struct fauna *fauna, char *line){
     int start_point = (int)strlen(fauna->danishName) + (int)strlen(fauna->latinName) + 4;
     int i = 0;
     int j = start_point;
-    /*køre indtil at der ikke er flere navne på linjen*/
-    while (line[j] != '\0' && i < 100){
-        /*køre indtil at den har fundet plantes navn*/
+    /*runs until there are no more names on the line*/
+    while (line[j] != '\0'){
+        /*runs until the plant's name has been found*/
         while (line[j] != ',' && line[j] != '\0' && line[j] != '\n' && j < STR_LENGTH){
-            fauna->plant[i][j-start_point] = line[j];
+            fauna->plant[i][j - start_point] = line[j];
             j++;
         }
         fauna->plant[i][j] = '\0';

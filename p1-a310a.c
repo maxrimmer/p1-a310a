@@ -63,7 +63,7 @@ struct fauna {
   char danishName[40];
   char latinName[40];
   enum roedliste endangerlvl;
-  char *plant[100];
+  char *plants[100];
     
 };
 
