@@ -89,8 +89,8 @@ void read_plants(struct fauna *fauna, char *line){
         
         to_upper(fauna->plants[i]);
         
-        if(strcmp(fauna->plants[i], "") != 0)
-            printf("%s\n", fauna->plants[i]);
+        /*if(strcmp(fauna->plants[i], "") != 0)
+            printf("%s\n", fauna->plants[i]);*/
         j++;
         start_point = j;
         i++;
@@ -105,7 +105,6 @@ void printFaunaArray(struct fauna *fauna) {
       printf("%-40s | %-40s | %2s |",
       fauna[i].danishName, fauna[i].latinName, endanger_name(fauna[i].endangerlvl));
         while (strcmp(fauna[i].plants[j], "") != 0){
-            printf(" %d ", j);
             printf(" %-40s |", fauna[i].plants[j]);
             j++;
         }
