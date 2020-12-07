@@ -54,6 +54,11 @@ struct flora {
   enum mfoTypes mfoType;
 };
 
+struct matched_flora {
+  char floraLatinName[40];
+  char matchedFaunaLatinName[10][40];
+};
+
 struct fauna {
   char danishName[40];
   char latinName[40];
