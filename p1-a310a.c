@@ -5,7 +5,7 @@ Projektperiode: Efteraarssemester 2020
 */
 
 /* Includes */
-// From standard library
+/* From standard library */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -19,7 +19,7 @@ Projektperiode: Efteraarssemester 2020
 void to_upper (char *capitalise);
 int hash(char *str);
 
-// Struct definitions
+/* Struct definitions */
 struct area {
   int heaviness;
   int light;
@@ -69,7 +69,7 @@ struct fauna {
 };
 
 
-// Custom header files
+/* Custom header files */
 #include "input.h"
 #include "flora.h"
 #include "fauna.h"

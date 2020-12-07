@@ -14,10 +14,10 @@ void read_plants (struct fauna *fauna, char *line);
 
 
 void printFaunaTest() {
-  printf("Fauna header file working\n");
   int i, j;
   struct fauna fauna[HASH_ARRAY_SIZE];
   struct flora flora[HASH_ARRAY_SIZE];
+  printf("Fauna header file working\n");
     
   /* Empties fauna array */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
