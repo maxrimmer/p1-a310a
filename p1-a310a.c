@@ -91,11 +91,12 @@ int main(int argc, char const *argv[]) {
     RunAllTests();
   } else {
     struct area area = read_input();
+    struct matched_flora *matched_flora;
 
     printf("P1 Projekt test\n");
 
     flora_database_and_matching(area);
-    fauna_database_and_matching();
+    fauna_database_and_matching(matched_flora);
   }
 
 
