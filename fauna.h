@@ -65,7 +65,7 @@ void read_fauna_database(struct fauna *fauna) {
             
             read_plants(&read_fauna, line);
             
-            /* Capitalises the latin name */
+            /* Capitalises the latin name of the insect*/
             to_upper(read_fauna.latinName);
             
             latinName = read_fauna.latinName;
@@ -91,6 +91,7 @@ void read_plants(struct fauna *fauna, char *line){
         }
         fauna->plants[i][j] = '\0';
         
+        /* Capitalises the latin name of plants */
         to_upper(fauna->plants[i]);
         
         /*if(strcmp(fauna->plants[i], "") != 0)
