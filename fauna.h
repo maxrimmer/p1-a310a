@@ -10,7 +10,6 @@ void printFaunaTest();
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
 char *endanger_name (enum roedliste endangerlvl);
-void to_upper (struct fauna *fauna);
 void read_plants (struct fauna *fauna, char *line);
 
 
@@ -46,6 +45,7 @@ void read_fauna_database(struct fauna *fauna) {
             sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
             
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
+            
             for(i = 0; i < FAUNA_PLANTS_ARRAY_SIZE; i++){
                 if((read_fauna.plants[i] = (char *)malloc(40*sizeof(char))) == NULL){
                     printf("Malloc fail");
@@ -53,8 +53,9 @@ void read_fauna_database(struct fauna *fauna) {
                 }
                 strcpy(read_fauna.plants[i], ""); 
             }
+            
             read_plants(&read_fauna, line);
-            to_upper(&read_fauna);
+            to_upper(read_fauna.latinName);
             
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
@@ -85,6 +86,9 @@ void read_plants(struct fauna *fauna, char *line){
             j++;
         }
         fauna->plants[i][j] = '\0';
+        
+        to_upper(fauna->plants[i]);
+        
         if(strcmp(fauna->plants[i], "") != 0)
             printf("%s\n", fauna->plants[i]);
         j++;
@@ -92,22 +96,22 @@ void read_plants(struct fauna *fauna, char *line){
         i++;
     }
 }
-/* Function to capitalise latin name */
-void to_upper(struct fauna *fauna){
-    int i = 0;
-    while (fauna->latinName[i] != '\0'){
-        fauna->latinName[i] = toupper(fauna->latinName[i]);
-        i++;
-    }
-}
+
 
 void printFaunaArray(struct fauna *fauna) {
-  int i;
+  int i, j = 0;
 
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(fauna[i].latinName, "") != 0) {
-      printf("%-40s | %-40s | %2s | nyt | nyt |\n",
+      printf("%-40s | %-40s | %2s |",
       fauna[i].danishName, fauna[i].latinName, endanger_name(fauna[i].endangerlvl));
+        while (strcmp(fauna[i].plants[j], "") != 0){
+            printf(" %d ", j);
+            printf(" %-40s |", fauna[i].plants[j]);
+            j++;
+        }
+        printf("\n");
+        j=0;
     }
   }
 }

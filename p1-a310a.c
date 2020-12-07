@@ -16,6 +16,7 @@ Projektperiode: Efteraarssemester 2020
 #define HASH_ARRAY_SIZE 1000
 
 /* Prototypes */
+void to_upper (char *capitalise);
 int hash(char *str);
 
 // Struct definitions
@@ -85,6 +86,16 @@ int main(int argc, char const *argv[]) {
 
   return EXIT_SUCCESS;
 }
+
+/* Function to capitalise latin name */
+void to_upper(char *capitalise){
+    int i = 0;
+    while (capitalise[i] != '\0'){
+        capitalise[i] = toupper(capitalise[i]);
+        i++;
+    }
+}
+
 
 /* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
 int hash(char *str) {
