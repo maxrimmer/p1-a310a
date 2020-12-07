@@ -32,6 +32,8 @@ void read_flora_database(struct flora *flora) {
       &readFlora.heaviness, &readFlora.light,    &readFlora.pH,
       &readFlora.nutrient,  &readFlora.moistness);
 
+      to_upper(readFlora.latinName);
+        
       latinName = readFlora.latinName;
       hashName = hash(latinName);
       flora[hashName] = readFlora;
