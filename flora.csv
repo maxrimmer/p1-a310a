@@ -1,4 +1,4 @@
-Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvælstof (N),Fugtighedstal (F)
+5,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvælstof (N),Fugtighedstal (F)
 Blaahat,Knautia arvensis,3,6,7,-1,4,4
 Kaellingetand,Lotus corniculatus,3,3,7,7,3,4
 Alm. knopurt,Centaurea jacea,3,7,7,-1,-1,-1
@@ -15,3 +15,10 @@ Humle-sneglebaelg,Medicago lupulina,2,5,7,8,-1,4
 Buskvedbend,Hedera Helix 'Arborescens',3,6,4,6,6,5
 Kulsukker,Symphytum Grandiflorum,3,7,7,7,7,7
 Traedebregne,Leptinella Squalida 'Cotula Squalida',3,7,7,7,7,7
+Djaevelsbid,Succisa pratensis,3,5,7,5,3,7
+Roed Tandbaege,Ballota nigra,3,-1,7,8,7,5
+Horsetidsel,Cirsium vulgare,2,-1,8,8,7,5
+Lancet-vejbred,Plantago lanceolata,3,-1,7,5,6,5
+Glat vejbred,Plantago major,3,-1,7,6,6,5
+Sumpkaellingetand,Lotus uliginosus,3,-1,7,4,4,8
+Stor knopurt,Centaurea scabiosa,3,-1,7,4,8,4
