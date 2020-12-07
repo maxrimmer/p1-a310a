@@ -15,7 +15,7 @@ void read_plants (struct fauna *fauna, char *line);
 
 void printFaunaTest() {
   printf("Fauna header file working\n");
-  int i;
+  int i, j;
   struct fauna fauna[HASH_ARRAY_SIZE];
   struct flora flora[HASH_ARRAY_SIZE];
     
@@ -26,6 +26,13 @@ void printFaunaTest() {
 
   read_fauna_database(fauna);
   printFaunaArray(fauna);
+  for (i = 0; i < HASH_ARRAY_SIZE; i++){
+        if (strcmp(fauna[i].danishName, "") != 0){
+            for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
+                free(fauna[i].plants[j]);
+            }
+        }
+    }
 }
 
 void read_fauna_database(struct fauna *fauna) {
@@ -33,7 +40,7 @@ void read_fauna_database(struct fauna *fauna) {
     int hashName;
     char* latinName;
     struct fauna read_fauna;
-    int roed_danger, i, j;
+    int roed_danger, i;
     
     FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
     
@@ -60,13 +67,6 @@ void read_fauna_database(struct fauna *fauna) {
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
             fauna[hashName] = read_fauna;
-        }
-        for (i = 0; i < HASH_ARRAY_SIZE; i++){
-            if (strcmp(fauna[i].danishName, "") != 0){
-                for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
-                    free(fauna[i].plants[j]);
-                }
-            }
         }
     }
     else{
@@ -100,7 +100,6 @@ void read_plants(struct fauna *fauna, char *line){
 
 void printFaunaArray(struct fauna *fauna) {
   int i, j = 0;
-
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(fauna[i].latinName, "") != 0) {
       printf("%-40s | %-40s | %2s |",
