@@ -94,8 +94,8 @@ int main(int argc, char const *argv[]) {
 
     printf("P1 Projekt test\n");
 
-    printFloraTest(area);
-    printFaunaTest();
+    flora_database_and_matching(area);
+    fauna_database_and_matching();
   }
 
 
