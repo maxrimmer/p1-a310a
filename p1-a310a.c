@@ -6,14 +6,21 @@ Aalborg Universitet: Datalogi 1. semester
 */
 
 /* Includes */
-// From standard library
+/* From standard library */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 
-// Struct definitions
+#define HASH_ARRAY_SIZE 1000
+
+/* Prototypes */
+void to_upper (char *capitalise);
+int hash(char *str);
+
+/* Struct definitions */
 struct area {
   int heaviness;
   int light;
@@ -62,18 +69,16 @@ struct matched_flora {
 struct fauna {
   char danishName[40];
   char latinName[40];
-  struct flora *plants;
+  enum roedliste endangerlvl;
+  char *plants[100];
+    
 };
 
 
-// Custom header files
+/* Custom header files */
 #include "input.h"
 #include "flora.h"
 #include "fauna.h"
-
-/* Prototypes */
-
-
 
 /* Main */
 int main(int argc, char const *argv[]) {
@@ -86,4 +91,27 @@ int main(int argc, char const *argv[]) {
   printFaunaTest();
 
   return EXIT_SUCCESS;
+}
+
+/* Function to capitalise latin name */
+void to_upper(char *capitalise){
+    int i = 0;
+    while (capitalise[i] != '\0'){
+        capitalise[i] = toupper(capitalise[i]);
+        i++;
+    }
+}
+
+
+/* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
+int hash(char *str) {
+    unsigned long hash = 5381;
+    int c;
+
+    while ((c = *str++))
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+        /* Hash is trimmed to the HASHTABLE_SIZE */
+    hash %= HASH_ARRAY_SIZE;
+
+    return hash;
 }
