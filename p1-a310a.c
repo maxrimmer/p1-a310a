@@ -2,6 +2,7 @@
 P1 Projekt
 Gruppe: A310a
 Projektperiode: Efteraarssemester 2020
+Aalborg Universitet: Datalogi 1. semester
 */
 
 /* Includes */
@@ -26,8 +27,8 @@ struct area {
   int pH;
   int nutrient;
   int moistness;
-  double totalArea;
-  double mfoArea;
+  int totalArea;
+  int mfoArea;
 };
 
 enum mfoTypes {
@@ -60,6 +61,11 @@ struct flora {
   enum mfoTypes mfoType;
 };
 
+struct matched_flora {
+  char floraLatinName[40];
+  char matchedFaunaLatinName[10][40];
+};
+
 struct fauna {
   char danishName[40];
   char latinName[40];
@@ -81,7 +87,7 @@ int main(int argc, char const *argv[]) {
 
   printf("P1 Projekt test\n");
 
-  printFloraTest();
+  printFloraTest(area);
   printFaunaTest();
 
   return EXIT_SUCCESS;
