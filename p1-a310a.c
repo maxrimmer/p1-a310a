@@ -20,6 +20,9 @@ Aalborg Universitet: Datalogi 1. semester
 void to_upper (char *capitalise);
 int hash(char *str);
 
+/* For CuTest */
+void RunAllTests(void);
+
 /* Struct definitions */
 struct area {
   int heaviness;
@@ -71,7 +74,7 @@ struct fauna {
   char latinName[40];
   enum roedliste endangerlvl;
   char *plants[100];
-    
+
 };
 
 
@@ -79,28 +82,58 @@ struct fauna {
 #include "input.h"
 #include "flora.h"
 #include "fauna.h"
+#include "CuTest.h"
 
 /* Main */
 int main(int argc, char const *argv[]) {
 
-  struct area area = read_input();
+  if (argc > 1 && strcmp(argv[1], "--test") == 0) {
+    RunAllTests();
+  } else {
+    struct area area = read_input();
+    struct matched_flora *matched_flora;
 
-  printf("P1 Projekt test\n");
+    printf("P1 Projekt test\n");
 
-  flora_database_and_matching(area);
-  fauna_database_and_matching();
+    flora_database_and_matching(area);
+    fauna_database_and_matching(matched_flora);
+  }
+
 
   return EXIT_SUCCESS;
 }
 
 /* Function to capitalise latin name */
-void to_upper(char *capitalise){
+void to_upper(char *capitalise) {
     int i = 0;
     while (capitalise[i] != '\0'){
         capitalise[i] = toupper(capitalise[i]);
         i++;
     }
 }
+
+/* CuTests */
+void TestStrToUpperAlpha(CuTest *tc) {
+       char* input = strdup("hello world");
+       to_upper(input);
+       char* expected = "HELLO WORLD";
+       CuAssertStrEquals(tc, expected, input);
+}
+
+void TestStrToUpperSpecialChars(CuTest *tc) {
+       char* input = strdup("HeLoLo @@ ## test 1234");
+       to_upper(input);
+       char* expected = "HELOLO @@ ## TEST 1234";
+       CuAssertStrEquals(tc, expected, input);
+}
+
+CuSuite* StrUtilGetSuite() {
+   CuSuite* suite = CuSuiteNew();
+   SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
+   SUITE_ADD_TEST(suite, TestStrToUpperSpecialChars);
+   return suite;
+}
+/* End CUTests */
 
 
 /* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
