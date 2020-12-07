@@ -43,15 +43,15 @@ void read_flora_database(struct flora *flora) {
 
 /* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
 int hash(char *str) {
-    unsigned long hash = 5381;
-    int c;
+  unsigned long hash = 5381;
+  int c;
 
-    while ((c = *str++))
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-        /* Hash is trimmed to the HASHTABLE_SIZE */
-    hash %= FLORA_HASH_ARRAY_SIZE;
+  while ((c = *str++))
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  /* Hash is trimmed to the HASHTABLE_SIZE */
+  hash %= FLORA_HASH_ARRAY_SIZE;
 
-    return hash;
+  return hash;
 }
 
 void flora_matching(struct flora *flora_array, struct area area, struct matched_flora *matched_flora){
