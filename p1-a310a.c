@@ -5,7 +5,7 @@ Projektperiode: Efteraarssemester 2020
 */
 
 /* Includes */
-// From standard library
+/* From standard library */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -16,9 +16,10 @@ Projektperiode: Efteraarssemester 2020
 #define HASH_ARRAY_SIZE 1000
 
 /* Prototypes */
+void to_upper (char *capitalise);
 int hash(char *str);
 
-// Struct definitions
+/* Struct definitions */
 struct area {
   int heaviness;
   int light;
@@ -63,11 +64,12 @@ struct fauna {
   char danishName[40];
   char latinName[40];
   enum roedliste endangerlvl;
-  struct flora *plants;
+  char *plants[100];
+    
 };
 
 
-// Custom header files
+/* Custom header files */
 #include "input.h"
 #include "flora.h"
 #include "fauna.h"
@@ -84,6 +86,16 @@ int main(int argc, char const *argv[]) {
 
   return EXIT_SUCCESS;
 }
+
+/* Function to capitalise latin name */
+void to_upper(char *capitalise){
+    int i = 0;
+    while (capitalise[i] != '\0'){
+        capitalise[i] = toupper(capitalise[i]);
+        i++;
+    }
+}
+
 
 /* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
 int hash(char *str) {
