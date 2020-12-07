@@ -105,13 +105,13 @@ void to_upper(char *capitalise){
 
 /* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
 int hash(char *str) {
-    unsigned long hash = 5381;
-    int c;
+  unsigned long hash = 5381;
+  int c;
 
-    while ((c = *str++))
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-        /* Hash is trimmed to the HASHTABLE_SIZE */
-    hash %= HASH_ARRAY_SIZE;
+  while ((c = *str++))
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  /* Hash is trimmed to the HASHTABLE_SIZE */
+  hash %= FLORA_HASH_ARRAY_SIZE;
 
-    return hash;
+  return hash;
 }
