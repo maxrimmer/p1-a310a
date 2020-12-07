@@ -56,7 +56,7 @@ struct flora {
 
 struct matched_flora {
   char floraLatinName[40];
-  char matchedFaunaLatinname[10][40];
+  char matchedFaunaLatinName[10][40];
 };
 
 struct fauna {
