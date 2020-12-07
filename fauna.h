@@ -6,14 +6,14 @@
 /*
 Function declarations for accessing and modifying fauna database
 */
-void printFaunaTest();
+void fauna_database_and_matching();
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
 char *endanger_name (enum roedliste endangerlvl);
 void read_plants (struct fauna *fauna, char *line);
 
 
-void printFaunaTest() {
+void fauna_database_and_matching(struct matched_flora *matched_flora) {
   int i, j;
   struct fauna fauna[HASH_ARRAY_SIZE];
   struct flora flora[HASH_ARRAY_SIZE];
@@ -105,11 +105,11 @@ void printFaunaArray(struct fauna *fauna) {
       printf("%-40s | %-40s | %2s |",
       fauna[i].danishName, fauna[i].latinName, endanger_name(fauna[i].endangerlvl));
         while (strcmp(fauna[i].plants[j], "") != 0){
-            printf(" %-40s |", fauna[i].plants[j]);
-            j++;
+          printf(" %-40s |", fauna[i].plants[j]);
+          j++;
         }
         printf("\n");
-        j=0;
+        j = 0;
     }
   }
 }
