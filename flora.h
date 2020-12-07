@@ -1,11 +1,12 @@
 #define FLORA_DATABASE "flora.csv"
 #define FLORA_HASH_ARRAY_SIZE 1000
+#define MAX_NUMBER_OF_MATCHES 100
 #define LINE_STR_LEN 120
 /*
 Function declarations for accessing and modifying flora database
 */
 int hash(char *str);
-void flora_matching(struct flora *flora_array, struct area area, char resultlist[100][40]);
+void flora_matching(struct flora *flora_array, struct area area, struct matched_flora *matched_flora);
 int is_match_flora(struct flora flora_array, struct area area);
 int flora_matching_checking(int area, int flora_array);
 void printFloraArray(struct flora *flora);
@@ -53,12 +54,13 @@ int hash(char *str) {
   return hash;
 }
 
-void flora_matching(struct flora *flora_array, struct area area, char resultlist[100][40]){
+void flora_matching(struct flora *flora_array, struct area area, struct matched_flora *matched_flora){
   int a, count = 0;
   for(a = 0; a < FLORA_HASH_ARRAY_SIZE; a++){
     if(strcmp(flora_array[a].latinName, "") != 0){
       if(is_match_flora(flora_array[a], area)){
-        strcpy(resultlist[count], flora_array[a].latinName);
+        strcpy(matched_flora[count].floraLatinName, flora_array[a].latinName);
+        //strcpy(resultlist[count], flora_array[a].latinName);
         //printf("hey HEY");
         count++;
       }
@@ -95,7 +97,8 @@ int flora_matching_checking(int area_attribute, int flora_attribute){
 void printFloraTest(struct area area) {
   printf("Flora header file working\n");
   int i;
-  char result[100][40];
+  struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
+  /*char result[100][40];*/
   struct flora flora[FLORA_HASH_ARRAY_SIZE];
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     flora[i] = (struct flora) {"", "", 0, 0, 0, 0, 0, 0};
@@ -104,14 +107,15 @@ void printFloraTest(struct area area) {
   read_flora_database(flora);
   printFloraArray(flora);
 
-  for(i = 0; i < 100; i++){
-    strcpy(result[i], " ");
+  for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
+    matched_flora[i] = (struct matched_flora) {" "};
+    /*strcpy(result[i], " ");*/
   }
     //result[i] = "";
-  flora_matching(flora, area, result);
+  flora_matching(flora, area, matched_flora);
   for(i = 0; i < 100; i++){
-    if((strcmp(result[i], " ") != 0)){
-      printf("%s\n", result[i]);
+    if((strcmp(matched_flora[i].floraLatinName, " ") != 0)){
+      printf("%s\n", matched_flora[i].floraLatinName);
     }
     //printf("%s", result);
   }

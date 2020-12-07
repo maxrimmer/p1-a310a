@@ -1,8 +1,11 @@
+#define HA_TO_M2_CONVERSIONRATIO 10000
 /*This function returns ture if the input is between the upper and lower boundry*/
 int inputVarification(int input, int lower_boundry, int upper_boundry);
+int ha_to_m2_converter(float ha);
 
 struct area read_input(void) {
   struct area area;
+  float ha;
   printf("Velkommen til MFO forslag.\n"
   "Dette program vil ud fra dine indtastede oplysninger om dit areal\n"
   "foreslaa mulige planter der kan udplantes i arealet samt roedlistede\n"
@@ -10,13 +13,15 @@ struct area read_input(void) {
 
   do {
     printf("Indtast venligst dit omdriftsareals stoerrelse i ha. (indtast som decimaltal):\n");
-    scanf(" %lf", &area.totalArea);
-  } while(area.totalArea <= 0.0);
-
+    scanf(" %f", &ha);
+  } while(ha <= 0.0);
+  area.totalArea = ha_to_m2_converter(ha);
+  
   do {
     printf("Indtast venligst omraadet du oensker omlagt til MFO's stoerrelse i ha. (indtast som decimaltal):\n");
-    scanf(" %lf", &area.mfoArea);
-  } while(area.totalArea <= 0.0);
+    scanf(" %f", &ha);
+  } while(ha <= 0.0);
+  area.mfoArea = ha_to_m2_converter(ha);
 
   do {
     printf("Indtast venligst MFO arealets jords tunghed. (1-10, heltal):\n");
@@ -48,4 +53,8 @@ struct area read_input(void) {
 
 int inputVarification(int input, int lower_boundry, int upper_boundry){
   return lower_boundry < input && input < upper_boundry;
+}
+
+int ha_to_m2_converter(float ha){
+  return (int) (ha * HA_TO_M2_CONVERSIONRATIO);
 }
