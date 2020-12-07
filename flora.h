@@ -81,7 +81,7 @@ int flora_matching_checking(int area_attribute, int flora_attribute){
   return 0;
 }
 
-void printFloraTest(struct area area) {
+void flora_database_and_matching(struct area area) {
   printf("Flora header file working\n");
   int i;
   struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
