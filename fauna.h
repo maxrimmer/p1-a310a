@@ -26,6 +26,8 @@ void printFaunaTest() {
 
   read_fauna_database(fauna);
   printFaunaArray(fauna);
+    
+  /* frees the array of plants */
   for (i = 0; i < HASH_ARRAY_SIZE; i++){
         if (strcmp(fauna[i].danishName, "") != 0){
             for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
@@ -62,6 +64,8 @@ void read_fauna_database(struct fauna *fauna) {
             }
             
             read_plants(&read_fauna, line);
+            
+            /* Capitalises the latin name */
             to_upper(read_fauna.latinName);
             
             latinName = read_fauna.latinName;
