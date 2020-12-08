@@ -6,19 +6,19 @@
 /*
 Function declarations for accessing and modifying fauna database
 */
-void printFaunaTest();
+void fauna_database_and_matching(struct matched_flora *matched_flora);
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
 char *endanger_name (enum roedliste endangerlvl);
 void read_plants (struct fauna *fauna, char *line);
 
 
-void printFaunaTest() {
+void fauna_database_and_matching(struct matched_flora *matched_flora) {
   int i, j;
   struct fauna fauna[HASH_ARRAY_SIZE];
   struct flora flora[HASH_ARRAY_SIZE];
   printf("Fauna header file working\n");
-    
+
   /* Empties fauna array */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     fauna[i] = (struct fauna) {"", "", 0};
@@ -26,8 +26,6 @@ void printFaunaTest() {
 
   read_fauna_database(fauna);
   printFaunaArray(fauna);
-    
-  /* frees the array of plants */
   for (i = 0; i < HASH_ARRAY_SIZE; i++){
         if (strcmp(fauna[i].danishName, "") != 0){
             for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
@@ -43,31 +41,29 @@ void read_fauna_database(struct fauna *fauna) {
     char* latinName;
     struct fauna read_fauna;
     int roed_danger, i;
-    
+
     FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
-    
+
     if (fauna_ptr != NULL){
         /* We skip the first line, containing headers of the file */
         fgets(line, STR_LENGTH, fauna_ptr);
-        
+
         while (fgets(line, STR_LENGTH, fauna_ptr) != NULL){
             sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
-            
+
             read_fauna.endangerlvl = (enum roedliste)roed_danger;
-            
+
             for(i = 0; i < FAUNA_PLANTS_ARRAY_SIZE; i++){
                 if((read_fauna.plants[i] = (char *)malloc(40*sizeof(char))) == NULL){
                     printf("Malloc fail");
                     exit(EXIT_FAILURE);
                 }
-                strcpy(read_fauna.plants[i], ""); 
+                strcpy(read_fauna.plants[i], "");
             }
-            
+
             read_plants(&read_fauna, line);
-            
-            /* Capitalises the latin name of the insect*/
             to_upper(read_fauna.latinName);
-            
+
             latinName = read_fauna.latinName;
             hashName = hash(latinName);
             fauna[hashName] = read_fauna;
@@ -90,10 +86,9 @@ void read_plants(struct fauna *fauna, char *line){
             j++;
         }
         fauna->plants[i][j] = '\0';
-        
-        /* Capitalises the latin name of plants */
+
         to_upper(fauna->plants[i]);
-        
+
         /*if(strcmp(fauna->plants[i], "") != 0)
             printf("%s\n", fauna->plants[i]);*/
         j++;
@@ -110,11 +105,11 @@ void printFaunaArray(struct fauna *fauna) {
       printf("%-40s | %-40s | %2s |",
       fauna[i].danishName, fauna[i].latinName, endanger_name(fauna[i].endangerlvl));
         while (strcmp(fauna[i].plants[j], "") != 0){
-            printf(" %-40s |", fauna[i].plants[j]);
-            j++;
+          printf(" %-40s |", fauna[i].plants[j]);
+          j++;
         }
         printf("\n");
-        j=0;
+        j = 0;
     }
   }
 }
