@@ -40,6 +40,7 @@ enum mfoTypes {
   mfoBestoeverbrak
 };
 
+/* kan navngives "red_list_categories" */
 enum roedliste {
   RE,
   CR,
