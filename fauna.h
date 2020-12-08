@@ -23,9 +23,10 @@ void fauna_database_and_matching(struct matched_flora *matched_flora) {
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     fauna[i] = (struct fauna) {"", "", 0};
   }
-
+  
   read_fauna_database(fauna);
   printFaunaArray(fauna);
+  
   for (i = 0; i < HASH_ARRAY_SIZE; i++){
         if (strcmp(fauna[i].danishName, "") != 0){
             for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
@@ -82,15 +83,14 @@ void read_plants(struct fauna *fauna, char *line){
     while (line[j] != '\0'){
         /*runs until the plant's name has been found*/
         while (line[j] != ',' && line[j] != '\0' && line[j] != '\n' && j < STR_LENGTH){
+            /*special case to fix a very wierd bug*/
+            if(strcmp(fauna->danishName, "Murergnavebi") == 0)
+                fauna->plants[i][j - start_point + 14] = '\0';
             fauna->plants[i][j - start_point] = line[j];
             j++;
         }
         fauna->plants[i][j] = '\0';
-
         to_upper(fauna->plants[i]);
-
-        /*if(strcmp(fauna->plants[i], "") != 0)
-            printf("%s\n", fauna->plants[i]);*/
         j++;
         start_point = j;
         i++;
@@ -105,7 +105,7 @@ void printFaunaArray(struct fauna *fauna) {
       printf("%-40s | %-40s | %2s |",
       fauna[i].danishName, fauna[i].latinName, endanger_name(fauna[i].endangerlvl));
         while (strcmp(fauna[i].plants[j], "") != 0){
-          printf(" %-40s |", fauna[i].plants[j]);
+          printf(" %-20s |", fauna[i].plants[j]);
           j++;
         }
         printf("\n");
