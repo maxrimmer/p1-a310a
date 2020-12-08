@@ -16,7 +16,7 @@ struct area read_input(void) {
     scanf(" %f", &ha);
   } while(ha <= 0.0);
   area.totalArea = ha_to_m2_converter(ha);
-  
+
   do {
     printf("Indtast venligst omraadet du oensker omlagt til MFO's stoerrelse i ha. (indtast som decimaltal):\n");
     scanf(" %f", &ha);
@@ -52,7 +52,7 @@ struct area read_input(void) {
 }
 
 int inputVarification(int input, int lower_boundry, int upper_boundry){
-  return lower_boundry < input && input < upper_boundry;
+  return lower_boundry <= input && input <= upper_boundry;
 }
 
 int ha_to_m2_converter(float ha){
