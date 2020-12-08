@@ -86,7 +86,6 @@ struct fauna {
 
 /* Main */
 int main(int argc, char const *argv[]) {
-
   if (argc > 1 && strcmp(argv[1], "--test") == 0) {
     RunAllTests();
   } else {
