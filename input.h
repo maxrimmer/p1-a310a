@@ -4,7 +4,7 @@ int inputVerification(int input, int lower_boundry, int upper_boundry);
 int ha_to_m2_converter(float ha);
 void error_40(int *checker);
 int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry);
-int ellenberg_value_condition (int return_this, int is_ellenburg_value, int lower_boundry, int upper_boundry);
+int ellenberg_value_condition (int input, int is_ellenburg_value, int lower_boundry, int upper_boundry);
 
 struct area read_input(void) {
   struct area area;
@@ -47,6 +47,21 @@ int ha_to_m2_converter(float ha){
   return ha * HA_TO_M2_CONVERSIONRATIO;
 }
 
+int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry){
+  int checker = 0;
+  float input;
+  do {
+    fflush(stdin);
+    error_40(&checker);
+    scanf(" %f", &input);
+  } while(ellenberg_value_condition(input, is_ellenberg_value, lower_boundry, upper_boundry));
+
+  if (is_ellenberg_value == 0)
+    input = ha_to_m2_converter(input);
+
+  return (int) input;
+}
+
 void error_40(int *checker){
   if(*checker >= 1){
     printf("Det givende indput er ikke inden for det oensket intervald, proev igen\n", *checker);
@@ -55,24 +70,9 @@ void error_40(int *checker){
   *checker += 1;
 }
 
-int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry){
-  int checker = 0;
-  float return_this;
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    scanf(" %f", &return_this);
-  } while(ellenberg_value_condition(return_this, is_ellenberg_value, lower_boundry, upper_boundry));
-
-  if (is_ellenberg_value == 0)
-    return_this = ha_to_m2_converter(return_this);
-
-  return (int) return_this;
-}
-
-int ellenberg_value_condition (int return_this, int is_ellenburg_value, int lower_boundry, int upper_boundry){
+int ellenberg_value_condition (int input, int is_ellenburg_value, int lower_boundry, int upper_boundry){
   if(is_ellenburg_value == 1){
-    return !inputVerification(return_this, lower_boundry, upper_boundry);
+    return !inputVerification(input, lower_boundry, upper_boundry);
   }
-  return return_this <= 0.0;
+  return input <= 0.0;
 }
