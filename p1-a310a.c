@@ -35,7 +35,7 @@ struct area {
 };
 
 enum mfoTypes {
-  mfoBreammer,
+  mfoBraemmer,
   mfoBrak,
   mfoBestoeverbrak
 };
@@ -61,7 +61,13 @@ struct flora {
   int pH;
   int nutrient;
   int moistness;
-  enum mfoTypes mfoType;
+  /*
+  mfoTypes is boolean:
+  mfoTypes[mfoBraemmer] is approved for MFO-braemmer
+  mfoTypes[mfoBrak] is approved for MFO-Brak
+  mfoTypes[mfoBestoeverbrak] is approved for MFO-Bestoeverbrak
+  */
+  int mfoTypes[3];
 };
 
 struct matched_flora {
@@ -91,8 +97,6 @@ int main(int argc, char const *argv[]) {
   } else {
     struct area area = read_input();
     struct matched_flora *matched_flora;
-
-    printf("P1 Projekt test\n");
 
     flora_database_and_matching(area);
     fauna_database_and_matching(matched_flora);

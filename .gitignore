@@ -53,6 +53,7 @@ dkms.conf
 
 # Program out
 mfo-matcher
+mfo-matcher.exe
 
 # MacOs
 *.DS_Store
