@@ -1,8 +1,10 @@
 #define HA_TO_M2_CONVERSIONRATIO 10000
 /*This function returns ture if the input is between the upper and lower boundry*/
-int inputVarification(int input, int lower_boundry, int upper_boundry);
+int inputVerification(int input, int lower_boundry, int upper_boundry);
 int ha_to_m2_converter(float ha);
 void error_40(int *checker);
+int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry);
+int et_eller_andet (int return_this, int is_ellenburg_value, int lower_boundry, int upper_boundry);
 
 struct area read_input(void) {
   struct area area;
@@ -13,69 +15,32 @@ struct area read_input(void) {
   "foreslaa mulige planter der kan udplantes i arealet samt roedlistede\n"
   "arter der ville have gavn af disse planter\n");
 
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    printf("\nIndtast dit omdriftsareals stoerrelse i ha. (decimaltal):\n");
-    scanf(" %f", &ha);
-  } while(ha <= 0.0);
-  area.totalArea = ha_to_m2_converter(ha);
-  checker = 0;
+  printf("\nIndtast dit omdriftsareals stoerrelse i ha. (decimaltal):\n");
+  area.totalArea = get_input(0, 0, 0);
 
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    printf("\nIndtast omraadet du oensker omlagt til MFO's stoerrelse i ha. (decimaltal):\n");
-    scanf(" %f", &ha);
-  } while(ha <= 0.0);
-  area.mfoArea = ha_to_m2_converter(ha);
-  checker = 0;
+  printf("\nIndtast omraadet du oensker omlagt til MFO's stoerrelse i ha. (decimaltal):\n");
+  area.mfoArea = get_input(0, 0, 0);
 
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    printf("\nIndtast MFO arealets jords tunghed. (1-10, heltal):\n");
-    scanf(" %d", &area.heaviness);
-  } while(!inputVarification(area.heaviness, 1, 10));
-  checker = 0;
+  printf("\nIndtast MFO arealets jords tunghed. (1-10, heltal):\n");
+  area.heaviness = get_input(1, 1, 10);
 
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    printf("\nIndtast MFO arealets jords lysforhold. (1-10, heltal):\n");
-    scanf(" %d", &area.light);
-  } while(!inputVarification(area.light, 1, 10));
-  checker = 0;
+  printf("\nIndtast MFO arealets jords lysforhold. (1-10, heltal):\n");
+  area.light = get_input(1, 1, 10);
 
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    printf("\nIndtast MFO arealets jords pH-vaerdi. (0-14, heltal):\n");
-    scanf(" %d", &area.pH);
-  } while(!inputVarification(area.pH, 0, 14));
-  checker = 0;
+  printf("\nIndtast MFO arealets jords pH-vaerdi. (0-14, heltal):\n");
+  area.pH = get_input(1, 1, 14);
 
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    printf("\nIndtast MFO arealets jords naeringsstofsindhold. (1-10, heltal):\n");
-    scanf(" %d", &area.nutrient);
-  } while(!inputVarification(area.nutrient, 1, 10));
-  checker = 0;
+  printf("\nIndtast MFO arealets jords naeringsstofsindhold. (1-10, heltal):\n");
+  area.nutrient = get_input(1, 1, 10);
 
-  do {
-    fflush(stdin);
-    error_40(&checker);
-    printf("\nIndtast MFO arealets jords fugtighed. (1-10, heltal):\n");
-    scanf(" %d", &area.moistness);
-  } while(!inputVarification(area.moistness, 1, 10));
-  checker = 0;
+  printf("\nIndtast MFO arealets jords fugtighed. (1-10, heltal):\n");
+  area.moistness = get_input(1, 1, 10);
 
   return area;
 }
 
-int inputVarification(int input, int lower_boundry, int upper_boundry){
-  return lower_boundry < input && input < upper_boundry;
+int inputVerification(int input, int lower_boundry, int upper_boundry){
+  return lower_boundry <= input && input <= upper_boundry;
 }
 
 int ha_to_m2_converter(float ha){
@@ -84,24 +49,30 @@ int ha_to_m2_converter(float ha){
 
 void error_40(int *checker){
   if(*checker >= 1){
-    printf("\ndet givende indput er ikke inden for det ønsket intervald", *checker);
+    printf("Det givende indput er ikke inden for det oensket intervald, proev igen\n", *checker);
     printf("\a");
   }
   *checker += 1;
 }
 
-int get_input (int ellenberg_value, ){
+int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry){
   int checker = 0;
   float return_this;
   do {
     fflush(stdin);
     error_40(&checker);
-    printf("\nIndtast dit omdriftsareals stoerrelse i ha. (decimaltal):\n");
     scanf(" %f", &return_this);
-  } while(return_this <= 0.0);
+  } while(et_eller_andet(return_this, is_ellenberg_value, lower_boundry, upper_boundry));
 
-  if (ellenberg_value == 0)
+  if (is_ellenberg_value == 0)
     return_this = ha_to_m2_converter(return_this);
 
-return (int) return_this;
+  return (int) return_this;
+}
+
+int et_eller_andet (int return_this, int is_ellenburg_value, int lower_boundry, int upper_boundry){
+  if(is_ellenburg_value == 1){
+    return !inputVerification(return_this, lower_boundry, upper_boundry);
+  }
+  return return_this <= 0.0;
 }

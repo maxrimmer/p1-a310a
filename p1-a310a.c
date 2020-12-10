@@ -6,14 +6,24 @@ Aalborg Universitet: Datalogi 1. semester
 */
 
 /* Includes */
-// From standard library
+/* From standard library */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 
-// Struct definitions
+#define HASH_ARRAY_SIZE 1000
+
+/* Prototypes */
+void to_upper (char *capitalise);
+int hash(char *str);
+
+/* For CuTest */
+void RunAllTests(void);
+
+/* Struct definitions */
 struct area {
   int heaviness;
   int light;
@@ -25,12 +35,12 @@ struct area {
 };
 
 enum mfoTypes {
-  mfoBreammer,
+  mfoBraemmer,
   mfoBrak,
   mfoBestoeverbrak
 };
 
-enum roedliste {
+enum red_list_categories {
   RE,
   CR,
   EN,
@@ -51,7 +61,13 @@ struct flora {
   int pH;
   int nutrient;
   int moistness;
-  enum mfoTypes mfoType;
+  /*
+  mfoTypes is boolean:
+  mfoTypes[mfoBraemmer] is approved for MFO-braemmer
+  mfoTypes[mfoBrak] is approved for MFO-Brak
+  mfoTypes[mfoBestoeverbrak] is approved for MFO-Bestoeverbrak
+  */
+  int mfoTypes[3];
 };
 
 struct matched_flora {
@@ -62,28 +78,76 @@ struct matched_flora {
 struct fauna {
   char danishName[40];
   char latinName[40];
-  struct flora *plants;
+  enum red_list_categories endangerlvl;
+  char *plants[100];
+
 };
 
 
-// Custom header files
+/* Custom header files */
 #include "input.h"
 #include "flora.h"
 #include "fauna.h"
-
-/* Prototypes */
-
-
+#include "CuTest.h"
 
 /* Main */
 int main(int argc, char const *argv[]) {
+  if (argc > 1 && strcmp(argv[1], "--test") == 0) {
+    RunAllTests();
+  } else {
+    struct area area = read_input();
+    struct matched_flora *matched_flora;
 
-  struct area area = read_input();
+    flora_database_and_matching(area);
+    fauna_database_and_matching(matched_flora);
+  }
 
-  printf("P1 Projekt test\n");
-
-  printFloraTest(area);
-  printFaunaTest();
 
   return EXIT_SUCCESS;
+}
+
+/* Function to capitalise latin name */
+void to_upper(char *capitalise) {
+    int i = 0;
+    while (capitalise[i] != '\0'){
+        capitalise[i] = toupper(capitalise[i]);
+        i++;
+    }
+}
+
+/* CuTests */
+void TestStrToUpperAlpha(CuTest *tc) {
+       char* input = strdup("hello world");
+       to_upper(input);
+       char* expected = "HELLO WORLD";
+       CuAssertStrEquals(tc, expected, input);
+}
+
+void TestStrToUpperSpecialChars(CuTest *tc) {
+       char* input = strdup("HeLoLo @@ ## test 1234");
+       to_upper(input);
+       char* expected = "HELOLO @@ ## TEST 1234";
+       CuAssertStrEquals(tc, expected, input);
+}
+
+CuSuite* StrUtilGetSuite() {
+   CuSuite* suite = CuSuiteNew();
+   SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
+   SUITE_ADD_TEST(suite, TestStrToUpperSpecialChars);
+   return suite;
+}
+/* End CUTests */
+
+
+/* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
+int hash(char *str) {
+  unsigned long hash = 5381;
+  int c;
+
+  while ((c = *str++))
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  /* Hash is trimmed to the HASHTABLE_SIZE */
+  hash %= FLORA_HASH_ARRAY_SIZE;
+
+  return hash;
 }

@@ -5,11 +5,40 @@
 /*
 Function declarations for accessing and modifying flora database
 */
-int hash(char *str);
+void read_flora_database(struct flora *flora);
+void add_mfo_to_flora(struct flora *flora);
+int is_approved_for_mfo_braemme_or_mfo_brak (int lifespan);
+int is_approved_for_mfo_bestoeverbrak (char* latinName);
 void flora_matching(struct flora *flora_array, struct area area, struct matched_flora *matched_flora);
 int is_match_flora(struct flora flora_array, struct area area);
 int flora_matching_checking(int area, int flora_array);
-void printFloraArray(struct flora *flora);
+void print_flora_array(struct flora *flora);
+
+/* Function for handling all of the flora block */
+void flora_database_and_matching(struct area area) {
+  printf("Flora header file working\n");
+  int i;
+  struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
+  struct flora flora[FLORA_HASH_ARRAY_SIZE];
+  for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
+    flora[i] = (struct flora) {"", "", 0, 0, 0, 0, 0, 0};
+  }
+
+  read_flora_database(flora);
+  add_mfo_to_flora(flora);
+  print_flora_array(flora);
+
+  for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
+    matched_flora[i] = (struct matched_flora) {" "};
+  }
+
+  flora_matching(flora, area, matched_flora);
+  for(i = 0; i < 100; i++){
+    if((strcmp(matched_flora[i].floraLatinName, " ") != 0)){
+      printf("%s\n", matched_flora[i].floraLatinName);
+    }
+  }
+}
 
 void read_flora_database(struct flora *flora) {
   int hashName;
@@ -32,6 +61,8 @@ void read_flora_database(struct flora *flora) {
       &readFlora.heaviness, &readFlora.light,    &readFlora.pH,
       &readFlora.nutrient,  &readFlora.moistness);
 
+      to_upper(readFlora.latinName);
+
       latinName = readFlora.latinName;
       hashName = hash(latinName);
       flora[hashName] = readFlora;
@@ -41,27 +72,89 @@ void read_flora_database(struct flora *flora) {
   }
 }
 
-/* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
-int hash(char *str) {
-  unsigned long hash = 5381;
-  int c;
+/* Function for adding MFO data to the flora struct */
+void add_mfo_to_flora (struct flora *flora) {
+  int i;
 
-  while ((c = *str++))
-    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-  /* Hash is trimmed to the HASHTABLE_SIZE */
-  hash %= FLORA_HASH_ARRAY_SIZE;
+  for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
+    if(strcmp(flora[i].latinName, "") != 0){
+      flora[i].mfoTypes[mfoBraemmer] = 0;
+      flora[i].mfoTypes[mfoBrak] = 0;
+      flora[i].mfoTypes[mfoBestoeverbrak] = 0;
 
-  return hash;
+      if (is_approved_for_mfo_braemme_or_mfo_brak(flora[i].lifespan)) {
+        flora[i].mfoTypes[mfoBraemmer] = 1;
+        flora[i].mfoTypes[mfoBrak] = 1;
+      }
+
+      if (is_approved_for_mfo_bestoeverbrak(flora[i].latinName)) {
+        flora[i].mfoTypes[mfoBraemmer] = 1;
+        flora[i].mfoTypes[mfoBrak] = 1;
+        flora[i].mfoTypes[mfoBestoeverbrak] = 1;
+      }
+
+    }
+  }
 }
 
-void flora_matching(struct flora *flora_array, struct area area, struct matched_flora *matched_flora){
+int is_approved_for_mfo_braemme_or_mfo_brak (int lifespan) {
+  if (lifespan == 1) {
+    return 1;
+  }
+
+  return 0;
+}
+
+int is_approved_for_mfo_bestoeverbrak (char* latinName) {
+  const char* approved_flora[] = {
+    "KNAUTIA ARVENSIS",
+    "GLEBIONIS SEGETUM",
+    "LEUCANTHEMUM VULGARE",
+    "SINAPIS ALBA",
+    "BORAGO OFFICINALIS",
+    "PHACELIA TANACETIFOLIA",
+    "CALENDULA OFFICINALIS",
+    "LINUM USITATISSIMUM",
+    "ANTHYLLIS VULNERARIA",
+    "FAGOPYRUM ESCULENTUM",
+    "CICHORIUM INTYBUS",
+    "CENTAUREA CYANUS",
+    "PAPAVER RHOEAS",
+    "DAUCUS CAROTA",
+    "ACHILLEA MILLIFOLIA",
+    "CARUM CARVI",
+    "ANTHRISCUS SYLVESTRIS",
+    "PRUNELLA VULGARIS",
+    "LOTUS COMICULATUM",
+    "TRIFOLIUM PRATENSE",
+    "TRIFOLIUM HYBRIDUM",
+    "TRIFOLIUM INCARNATUM",
+    "TRIFOLIUM REPENS",
+    "MEDICAGO SATIVA",
+    "MELILOTUS OFFICINALIS",
+    "VICIA CRACCA",
+    "ONOBRYCHIS VICIIFOLIA",
+    "MEDICAGO LUPULINA"
+  };
+
+  int approved_flora_size = (sizeof(approved_flora) / sizeof(const char *));
+  int i;
+
+  for (int i = 0; i < approved_flora_size; i++) {
+    if (strcmp(latinName, approved_flora[i]) == 0) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+void flora_matching (struct flora *flora_array, struct area area, struct matched_flora *matched_flora){
   int a, count = 0;
   for(a = 0; a < FLORA_HASH_ARRAY_SIZE; a++){
     if(strcmp(flora_array[a].latinName, "") != 0){
       if(is_match_flora(flora_array[a], area)){
         strcpy(matched_flora[count].floraLatinName, flora_array[a].latinName);
-        //strcpy(resultlist[count], flora_array[a].latinName);
-        //printf("hey HEY");
         count++;
       }
     }
@@ -94,42 +187,26 @@ int flora_matching_checking(int area_attribute, int flora_attribute){
   return 0;
 }
 
-void printFloraTest(struct area area) {
-  printf("Flora header file working\n");
-  int i;
-  struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
-  /*char result[100][40];*/
-  struct flora flora[FLORA_HASH_ARRAY_SIZE];
-  for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
-    flora[i] = (struct flora) {"", "", 0, 0, 0, 0, 0, 0};
-  }
-
-  read_flora_database(flora);
-  printFloraArray(flora);
-
-  for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
-    matched_flora[i] = (struct matched_flora) {" "};
-    /*strcpy(result[i], " ");*/
-  }
-    //result[i] = "";
-  flora_matching(flora, area, matched_flora);
-  for(i = 0; i < 100; i++){
-    if((strcmp(matched_flora[i].floraLatinName, " ") != 0)){
-      printf("%s\n", matched_flora[i].floraLatinName);
-    }
-    //printf("%s", result);
-  }
-}
-
-void printFloraArray(struct flora *flora) {
+void print_flora_array(struct flora *flora) {
   int i;
 
-  for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
+  for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(flora[i].latinName, "") != 0) {
-      printf("%-40s | %-40s | %2d | %2d | %2d | %2d | %2d | %2d\n",
+      printf("%-40s | %-40s | %2d | %2d | %2d | %2d | %2d | %2d",
       flora[i].danishName, flora[i].latinName, flora[i].lifespan,
       flora[i].heaviness, flora[i].light,    flora[i].pH,
       flora[i].nutrient,  flora[i].moistness);
+
+      if (flora[i].mfoTypes[mfoBraemmer]) {
+        printf(" | Godkendt til MFO-braemmer");
+      }
+      if (flora[i].mfoTypes[mfoBrak]) {
+        printf(" | Godkendt til MFO-brak");
+      }
+      if (flora[i].mfoTypes[mfoBestoeverbrak]) {
+        printf(" | Godkendt til MFO-blomster- og bestoeverbrak");
+      }
+      printf("\n");
     }
   }
 }
