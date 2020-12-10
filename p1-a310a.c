@@ -15,6 +15,7 @@ Aalborg Universitet: Datalogi 1. semester
 #include <ctype.h>
 
 #define HASH_ARRAY_SIZE 1000
+#define MAX_NUMBER_OF_MATCHES 100
 
 /* Prototypes */
 void to_upper (char *capitalise);
@@ -96,10 +97,17 @@ int main(int argc, char const *argv[]) {
     RunAllTests();
   } else {
     struct area area = read_input();
-    struct matched_flora *matched_flora;
+    struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
+    struct flora flora[HASH_ARRAY_SIZE];
+    struct fauna fauna[HASH_ARRAY_SIZE];
 
-    flora_database_and_matching(area);
-    fauna_database_and_matching(matched_flora);
+    char* testName = "Alpha Tauri";
+    char* testDestination[40];
+    get_plant_family_name(testName, testDestination);
+    printf("Splitted name: %s\n", testDestination);
+
+    flora_database_and_matching(area, flora, matched_flora);
+    fauna_database_and_matching(flora, matched_flora, fauna);
   }
 
 

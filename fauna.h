@@ -1,32 +1,31 @@
 #define FAUNA_DATABASE "fauna.csv"
 #define FAUNA_PLANTS_ARRAY_SIZE 100
-#define HASH_ARRAY_SIZE 1000
 #define STR_LENGTH 200
 
 /*
 Function declarations for accessing and modifying fauna database
 */
-void fauna_database_and_matching(struct matched_flora *matched_flora);
+void fauna_database_and_matching(struct flora *flora, struct matched_flora *matched_flora, struct fauna *fauna);
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
 char *endanger_name (enum red_list_categories endangerlvl);
 void read_plants (struct fauna *fauna, char *line);
+void get_plant_family_name (const char* latinName, char familyName[40]);
 
 
-void fauna_database_and_matching(struct matched_flora *matched_flora) {
+void fauna_database_and_matching(struct flora *flora, struct matched_flora *matched_flora, struct fauna *fauna) {
   int i, j;
-  struct fauna fauna[HASH_ARRAY_SIZE];
-  struct flora flora[HASH_ARRAY_SIZE];
+
   printf("Fauna header file working\n");
 
   /* Empties fauna array */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     fauna[i] = (struct fauna) {"", "", 0};
   }
-  
+
   read_fauna_database(fauna);
   printFaunaArray(fauna);
-  
+
   for (i = 0; i < HASH_ARRAY_SIZE; i++){
         if (strcmp(fauna[i].danishName, "") != 0){
             for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
@@ -137,4 +136,17 @@ char *endanger_name (enum red_list_categories endangerlvl){
         default:
             return "Error";
     }
+}
+
+void get_plant_family_name (const char* latinName, char* familyName) {
+  int i, split;
+  int size = (sizeof(latinName) / sizeof(const char*));
+  for (i = 0; i < size; i++) {
+    if (latinName[i] == ' ') {
+      split = i;
+      break;
+    }
+  }
+
+  strncpy(familyName, latinName, split);
 }
