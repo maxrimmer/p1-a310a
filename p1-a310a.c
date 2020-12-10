@@ -40,7 +40,7 @@ enum mfoTypes {
   mfoBestoeverbrak
 };
 
-enum roedliste {
+enum red_list_categories {
   RE,
   CR,
   EN,
@@ -78,7 +78,7 @@ struct matched_flora {
 struct fauna {
   char danishName[40];
   char latinName[40];
-  enum roedliste endangerlvl;
+  enum red_list_categories endangerlvl;
   char *plants[100];
 
 };
