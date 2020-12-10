@@ -9,7 +9,7 @@ Function declarations for accessing and modifying fauna database
 void fauna_database_and_matching(struct matched_flora *matched_flora);
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
-char *endanger_name (enum roedliste endangerlvl);
+char *endanger_name (enum red_list_categories endangerlvl);
 void read_plants (struct fauna *fauna, char *line);
 
 
@@ -41,7 +41,7 @@ void read_fauna_database(struct fauna *fauna) {
     int hashName;
     char* latinName;
     struct fauna read_fauna;
-    int roed_danger, i;
+    int danger_category, i;
 
     FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
 
@@ -50,9 +50,9 @@ void read_fauna_database(struct fauna *fauna) {
         fgets(line, STR_LENGTH, fauna_ptr);
 
         while (fgets(line, STR_LENGTH, fauna_ptr) != NULL){
-            sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &roed_danger);
+            sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &danger_category);
 
-            read_fauna.endangerlvl = (enum roedliste)roed_danger;
+            read_fauna.endangerlvl = (enum red_list_categories)danger_category;
 
             for(i = 0; i < FAUNA_PLANTS_ARRAY_SIZE; i++){
                 if((read_fauna.plants[i] = (char *)malloc(40*sizeof(char))) == NULL){
@@ -114,7 +114,7 @@ void printFaunaArray(struct fauna *fauna) {
   }
 }
 
-char *endanger_name (enum roedliste endangerlvl){
+char *endanger_name (enum red_list_categories endangerlvl){
     switch (endangerlvl) {
         case RE:
             return "RE";
