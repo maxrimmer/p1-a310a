@@ -83,7 +83,6 @@ struct fauna {
 
 };
 
-
 /* Custom header files */
 #include "input.h"
 #include "flora.h"
@@ -130,10 +129,26 @@ void TestStrToUpperSpecialChars(CuTest *tc) {
        CuAssertStrEquals(tc, expected, input);
 }
 
+void TestStrEndangerName(CuTest *tc) {
+       enum red_list_categories inputValue = RE;
+       char* input = endanger_name(inputValue);
+       char* expected = "RE";
+       CuAssertStrEquals(tc, expected, input);
+}
+
+void TestIntAprovedForMFOBestoeverbrak(CuTest *tc) {
+       char* inputValue = strdup("KNAUTIA ARVENSIS");
+       int input = is_approved_for_mfo_bestoeverbrak(inputValue);
+       int expected = 1;
+       CuAssertIntEquals(tc, expected, input);
+}
+
 CuSuite* StrUtilGetSuite() {
    CuSuite* suite = CuSuiteNew();
    SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
    SUITE_ADD_TEST(suite, TestStrToUpperSpecialChars);
+   SUITE_ADD_TEST(suite, TestStrEndangerName);
+   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrak);
    return suite;
 }
 /* End CUTests */
