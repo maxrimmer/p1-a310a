@@ -6,12 +6,12 @@ for printing results to .txt file
 
 /* Prototypes */
 void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna);
-void print_mfo_types(int mfoTypes[3], FILE * output_file);
+void print_mfo_types(int mfoTypes[3], FILE *output_file);
 
 
 void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna) {
   int i;
-  FILE * output_file;
+  FILE *output_file;
   output_file = fopen (OUTPUT_FILE_NAME, "w+");
 
   printf("%-40s | %-54s | %s\n", "Plantens navn", "MFO-omraader planten er godkendt til", "Insekter planten gavner");
@@ -45,7 +45,7 @@ void create_output(struct matched_flora *matched_flora, struct flora *flora, str
   fclose(output_file);
 }
 
-void print_mfo_types(int mfoTypes[3], FILE * output_file) {
+void print_mfo_types(int mfoTypes[3], FILE *output_file) {
   char* mfoPrint;
   if (mfoTypes[2]) {
     mfoPrint = "MFO-braemmer, MFO-brak, MFO-blomster- og bestoeverbrak";
