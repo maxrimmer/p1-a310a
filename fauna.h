@@ -46,8 +46,12 @@ void read_fauna_database(struct fauna *fauna) {
     FILE *fauna_ptr = fopen(FAUNA_DATABASE, "r");
 
     if (fauna_ptr != NULL){
-        /* We skip the first line, containing headers of the file */
+        /* We validate the first line, containing headers of the file */
         fgets(line, STR_LENGTH, fauna_ptr);
+        if(!(strncmp(line, "Dansk navn,Latinsk navn,Truet,Nytteplante 1,Nytteplante 2,Nytteplante 3,Nytteplante 4,Nytteplante 5,Nytteplante 6", 113)) == 0) {
+            printf("Headers in fauna csv file incorrect!\n");
+            exit(EXIT_FAILURE);
+        }
 
         while (fgets(line, STR_LENGTH, fauna_ptr) != NULL){
             sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &danger_category);
