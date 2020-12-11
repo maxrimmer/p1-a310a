@@ -6,7 +6,7 @@ for printing results to .txt file
 
 /* Prototypes */
 void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna);
-void print_mfo_types (int mfoTypes[3], FILE * output_file);
+void print_mfo_types(int mfoTypes[3], FILE * output_file);
 
 
 void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna) {
@@ -16,6 +16,7 @@ void create_output(struct matched_flora *matched_flora, struct flora *flora, str
 
   printf("%-40s | %-54s | %s\n", "Plantens navn", "MFO-omraader planten er godkendt til", "Insekter planten gavner");
   fprintf(output_file, "%-40s | %-54s | %s\n", "Plantens navn", "MFO-omraader planten er godkendt til", "Insekter planten gavner");
+
   for (i = 0; i < MAX_NUMBER_OF_MATCHES; i++) {
     if (strcmp(matched_flora[i].floraLatinName, "") != 0) {
       int floraHash = hash(matched_flora[i].floraLatinName);
@@ -44,7 +45,7 @@ void create_output(struct matched_flora *matched_flora, struct flora *flora, str
   fclose(output_file);
 }
 
-void print_mfo_types (int mfoTypes[3], FILE * output_file) {
+void print_mfo_types(int mfoTypes[3], FILE * output_file) {
   char* mfoPrint;
   if (mfoTypes[2]) {
     mfoPrint = "MFO-braemmer, MFO-brak, MFO-blomster- og bestoeverbrak";
