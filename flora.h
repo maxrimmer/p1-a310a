@@ -45,8 +45,12 @@ void read_flora_database(struct flora *flora) {
 
   if (flora_file != NULL) {
 
-    /* We skip the first line, containing headers of the file */
+    /* We validate the first line, containing headers of the file */
     fgets(line, LINE_STR_LEN, flora_file);
+    if(!(strncmp(line, "Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvaelstof (N),Fugtighedstal (F)", 109)) == 0) {
+      printf("Headers in flora csv file incorrect!\n");
+      exit(EXIT_FAILURE);
+    }
     while (fgets(line, LINE_STR_LEN, flora_file) != NULL) {
 
       sscanf(line, " %[^,] , %[^,] , %d , %d , %d , %d , %d , %d ",
