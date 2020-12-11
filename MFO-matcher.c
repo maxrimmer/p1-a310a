@@ -89,6 +89,7 @@ struct fauna {
 #include "input.h"
 #include "flora.h"
 #include "fauna.h"
+#include "output.h"
 #include "CuTest.h"
 
 /* Main */
@@ -103,6 +104,7 @@ int main(int argc, char const *argv[]) {
 
     flora_database_and_matching(area, flora, matched_flora);
     fauna_database_and_matching(flora, matched_flora, fauna);
+    create_output(matched_flora, flora, fauna);
   }
 
 
