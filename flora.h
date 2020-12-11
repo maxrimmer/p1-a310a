@@ -27,15 +27,10 @@ void flora_database_and_matching(struct area area, struct flora *flora, struct m
   print_flora_array(flora);
 
   for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
-    matched_flora[i] = (struct matched_flora) {" "};
+    matched_flora[i] = (struct matched_flora) {""};
   }
 
   flora_matching(flora, area, matched_flora);
-  for(i = 0; i < 100; i++){
-    if((strcmp(matched_flora[i].floraLatinName, " ") != 0)){
-      printf("%s\n", matched_flora[i].floraLatinName);
-    }
-  }
 }
 
 void read_flora_database(struct flora *flora) {
@@ -136,15 +131,8 @@ int is_approved_for_mfo_bestoeverbrak (char* latinName) {
   };
 
   int approved_flora_size = (sizeof(approved_flora) / sizeof(const char *));
-  int i;
+  return in_array(latinName, approved_flora, approved_flora_size);
 
-  for (int i = 0; i < approved_flora_size; i++) {
-    if (strcmp(latinName, approved_flora[i]) == 0) {
-      return 1;
-    }
-  }
-
-  return 0;
 }
 
 void flora_matching (struct flora *flora_array, struct area area, struct matched_flora *matched_flora){

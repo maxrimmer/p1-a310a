@@ -20,6 +20,7 @@ Aalborg Universitet: Datalogi 1. semester
 /* Prototypes */
 void to_upper (char *capitalise);
 int hash(char *str);
+int in_array(char* needle, const char** haystack, int size);
 
 /* For CuTest */
 void RunAllTests(void);
@@ -80,7 +81,7 @@ struct fauna {
   char danishName[40];
   char latinName[40];
   enum red_list_categories endangerlvl;
-  char *plants[100];
+  char *plants[MAX_NUMBER_OF_MATCHES];
 
 };
 
@@ -100,11 +101,6 @@ int main(int argc, char const *argv[]) {
     struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
     struct flora flora[HASH_ARRAY_SIZE];
     struct fauna fauna[HASH_ARRAY_SIZE];
-
-    char* testName = "Alpha Tauri";
-    char* testDestination[40];
-    get_plant_family_name(testName, testDestination);
-    printf("Splitted name: %s\n", testDestination);
 
     flora_database_and_matching(area, flora, matched_flora);
     fauna_database_and_matching(flora, matched_flora, fauna);
@@ -158,4 +154,16 @@ int hash(char *str) {
   hash %= FLORA_HASH_ARRAY_SIZE;
 
   return hash;
+}
+
+int in_array(char* needle, const char** haystack, int size) {
+  int i;
+
+  for (i = 0; i < size; i++) {
+    if (strcmp(haystack[i], needle) == 0) {
+      return 1;
+    }
+  }
+
+  return 0;
 }
