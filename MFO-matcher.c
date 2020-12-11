@@ -147,12 +147,21 @@ void TestIntAprovedForMFOBestoeverbrak(CuTest *tc) {
        CuAssertIntEquals(tc, expected, input);
 }
 
+void TestStrGetPlantFamilyName(CuTest *tc) {
+       char* inputValue = strdup("Magnus Ditlev");
+       char input[20];
+       get_plant_family_name(inputValue, input);
+       char *expected =  strdup("Magnus");
+       CuAssertStrEquals(tc, expected, input);
+}
+
 CuSuite* StrUtilGetSuite() {
    CuSuite* suite = CuSuiteNew();
    SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
    SUITE_ADD_TEST(suite, TestStrToUpperSpecialChars);
    SUITE_ADD_TEST(suite, TestStrEndangerName);
    SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrak);
+   SUITE_ADD_TEST(suite, TestStrGetPlantFamilyName);
    return suite;
 }
 /* End CUTests */
