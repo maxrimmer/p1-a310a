@@ -107,7 +107,6 @@ int main(int argc, char const *argv[]) {
     create_output(matched_flora, flora, fauna);
   }
 
-
   return EXIT_SUCCESS;
 }
 

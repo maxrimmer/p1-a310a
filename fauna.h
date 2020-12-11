@@ -17,7 +17,7 @@ void print_matched_flora(struct matched_flora *matched_flora);
 
 
 void fauna_database_and_matching(struct flora *flora, struct matched_flora *matched_flora, struct fauna *fauna) {
-  int i, j;
+  int i;
 
   /* Empties fauna array */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
@@ -31,14 +31,6 @@ void fauna_database_and_matching(struct flora *flora, struct matched_flora *matc
   fauna_matching(fauna, flora, matched_flora);
   printf("\nMatched flora and fauna:\n");
   print_matched_flora(matched_flora);
-
-  for (i = 0; i < HASH_ARRAY_SIZE; i++){
-    if (strcmp(fauna[i].danishName, "") != 0){
-      for(j = 0; j < FAUNA_PLANTS_ARRAY_SIZE; j++){
-          free(fauna[i].plants[j]);
-      }
-    }
-  }
 }
 
 void read_fauna_database(struct fauna *fauna) {
