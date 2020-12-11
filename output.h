@@ -28,13 +28,12 @@ void create_output(struct matched_flora *matched_flora, struct flora *flora, str
       int j = 0;
       while (strcmp(matched_flora[i].matchedFaunaLatinName[j], "") != 0 && j < 10) {
         int faunaHash = hash(matched_flora[i].matchedFaunaLatinName[j]);
-        if (j == 0) {
-            printf(" %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
-            fprintf(output_file, " %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
-        } else {
-            printf(", %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
-            fprintf(output_file, ", %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
+        if (j != 0) {
+          printf(",");
+          fprintf(output_file, ",");
         }
+        printf(" %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
+        fprintf(output_file, " %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
         j++;
       }
       printf("\n");
