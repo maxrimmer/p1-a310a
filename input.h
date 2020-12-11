@@ -8,8 +8,6 @@ int ellenberg_value_condition (int input, int is_ellenburg_value, int lower_boun
 
 struct area read_input(void) {
   struct area area;
-  float ha;
-  int checker = 0;
   printf("Velkommen til MFO forslag.\n"
   "Dette program vil ud fra dine indtastede oplysninger om dit areal\n"
   "foreslaa mulige planter der kan udplantes i arealet samt roedlistede\n"
@@ -64,7 +62,7 @@ int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry){
 
 void error_40(int *checker){
   if(*checker >= 1){
-    printf("Den indtastede vaerdi er ikke inden for det paakraevede interval.\n", *checker);
+    printf("Den indtastede vaerdi er ikke inden for det paakraevede interval.\n");
     printf("\a");
   }
   *checker += 1;
