@@ -10,7 +10,7 @@ void print_mfo_types(int mfoTypes[3], FILE *output_file);
 
 
 void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna) {
-  int i;
+  int i, j;
   FILE *output_file;
   output_file = fopen (OUTPUT_FILE_NAME, "w+");
 
@@ -25,7 +25,7 @@ void create_output(struct matched_flora *matched_flora, struct flora *flora, str
 
       print_mfo_types(flora[floraHash].mfoTypes, output_file);
 
-      int j = 0;
+      j = 0;
       while (strcmp(matched_flora[i].matchedFaunaLatinName[j], "") != 0 && j < 10) {
         int faunaHash = hash(matched_flora[i].matchedFaunaLatinName[j]);
         if (j != 0) {
