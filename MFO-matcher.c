@@ -85,7 +85,7 @@ struct fauna {
 
 };
 
-/*Debug option*/
+/*Global debug option*/
 int DEBUG = 0;
 
 /* Custom header files */
@@ -95,9 +95,9 @@ int DEBUG = 0;
 #include "output.h"
 #include "CuTest.h"
 
-
 /* Main */
 int main(int argc, char const *argv[]) {
+  /*2 if statements to check if the program was run with a --debug or --test option*/
   if (argc > 1 && strcmp(argv[1], "--debug") == 0){
     DEBUG = 1;
   }
@@ -110,14 +110,13 @@ int main(int argc, char const *argv[]) {
     struct fauna fauna[HASH_ARRAY_SIZE];
 
     flora_database_and_matching(area, flora, matched_flora);
-    fauna_database_and_matching(flora, matched_flora, fauna);
+    fauna_database_and_matching(matched_flora, fauna);
     create_output(matched_flora, flora, fauna);
   }
-
   return EXIT_SUCCESS;
 }
 
-/* Function to capitalise latin name */
+/* Function to capitalise a string*/
 void to_upper(char *capitalise) {
     int i = 0;
     while (capitalise[i] != '\0'){
@@ -174,7 +173,6 @@ CuSuite* StrUtilGetSuite() {
 }
 /* End CUTests */
 
-
 /* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
 int hash(char *str) {
   unsigned long hash = 5381;
@@ -188,6 +186,7 @@ int hash(char *str) {
   return hash;
 }
 
+/*test if a string is in a array of strings*/
 int in_array(char* needle, const char** haystack, int size) {
   int i;
 
@@ -196,6 +195,5 @@ int in_array(char* needle, const char** haystack, int size) {
       return 1;
     }
   }
-
   return 0;
 }

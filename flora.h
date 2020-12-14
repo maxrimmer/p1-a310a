@@ -17,6 +17,7 @@ void print_flora_array(struct flora *flora);
 /* Function for handling all of the flora block */
 void flora_database_and_matching(struct area area, struct flora *flora, struct matched_flora *matched_flora) {
   int i;
+  /*create empty flora structs*/
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     flora[i] = (struct flora) {"", "", 0, 0, 0, 0, 0, 0};
   }
@@ -24,10 +25,10 @@ void flora_database_and_matching(struct area area, struct flora *flora, struct m
   read_flora_database(flora);
   add_mfo_to_flora(flora);
   if(DEBUG){
-    printf("Flora database:\n");
+    printf("[Flora database]\n");
     print_flora_array(flora);
   }
-
+  /*set empty flora names*/
   for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
     matched_flora[i] = (struct matched_flora) {""};
   }
@@ -46,11 +47,10 @@ void read_flora_database(struct flora *flora) {
 
 
   if (flora_file != NULL) {
-
     /* We validate the first line, containing headers of the file */
     fgets(line, LINE_STR_LEN, flora_file);
-    if(!(strncmp(line, "Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvaelstof (N),Fugtighedstal (F)", 109)) == 0) {
-      printf("Headers in flora csv file incorrect!\n");
+    if(strncmp(line, "Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvaelstof (N),Fugtighedstal (F)", 109) != 0) {
+      printf("Headers in flora.csv file are incorrect!\n");
       exit(EXIT_FAILURE);
     }
     while (fgets(line, LINE_STR_LEN, flora_file) != NULL) {
@@ -65,9 +65,7 @@ void read_flora_database(struct flora *flora) {
       latinName = readFlora.latinName;
       hashName = hash(latinName);
       flora[hashName] = readFlora;
-
     }
-
   }
 }
 
@@ -91,7 +89,6 @@ void add_mfo_to_flora (struct flora *flora) {
         flora[i].mfoTypes[mfoBrak] = 1;
         flora[i].mfoTypes[mfoBestoeverbrak] = 1;
       }
-
     }
   }
 }
@@ -100,7 +97,6 @@ int is_approved_for_mfo_braemme_or_mfo_brak (int lifespan) {
   if (lifespan == 1) {
     return 1;
   }
-
   return 0;
 }
 
@@ -142,11 +138,13 @@ int is_approved_for_mfo_bestoeverbrak (char* latinName) {
 }
 
 void flora_matching (struct flora *flora_array, struct area area, struct matched_flora *matched_flora){
-  int a, count = 0;
-  for(a = 0; a < FLORA_HASH_ARRAY_SIZE; a++){
-    if(strcmp(flora_array[a].latinName, "") != 0){
-      if(is_match_flora(flora_array[a], area)){
-        strcpy(matched_flora[count].floraLatinName, flora_array[a].latinName);
+  int i, count = 0;
+  for(i = 0; i < FLORA_HASH_ARRAY_SIZE; i++){
+    /*if the string isn't empty*/
+    if(strcmp(flora_array[i].latinName, "") != 0){
+      /*and the area parameters matches*/
+      if(is_match_flora(flora_array[i], area)){
+        strcpy(matched_flora[count].floraLatinName, flora_array[i].latinName);
         count++;
       }
     }
@@ -154,6 +152,7 @@ void flora_matching (struct flora *flora_array, struct area area, struct matched
 }
 
 int is_match_flora(struct flora flora, struct area area){
+/*if any of the if statements are true return 0 else return 1*/
   if(!flora_matching_checking(area.heaviness, flora.heaviness) && flora.heaviness != -1)
     return 0;
 
@@ -173,12 +172,14 @@ int is_match_flora(struct flora flora, struct area area){
 }
 
 int flora_matching_checking(int area_attribute, int flora_attribute){
+  /*check if the atributes match with a +- 1 buffer*/
   if((area_attribute - flora_attribute) <= 1 && (area_attribute - flora_attribute) >= -1){
     return 1;
   }
   return 0;
 }
 
+/*Debug option to print the flora database*/
 void print_flora_array(struct flora *flora) {
   int i;
 
@@ -186,8 +187,8 @@ void print_flora_array(struct flora *flora) {
     if (strcmp(flora[i].latinName, "") != 0) {
       printf("%-40s | %-40s | %2d | %2d | %2d | %2d | %2d | %2d",
       flora[i].danishName, flora[i].latinName, flora[i].lifespan,
-      flora[i].heaviness, flora[i].light,    flora[i].pH,
-      flora[i].nutrient,  flora[i].moistness);
+      flora[i].heaviness, flora[i].light, flora[i].pH,
+      flora[i].nutrient, flora[i].moistness);
 
       if (flora[i].mfoTypes[mfoBraemmer]) {
         printf(" | Godkendt til MFO-braemmer");

@@ -40,7 +40,6 @@ void create_output(struct matched_flora *matched_flora, struct flora *flora, str
       fprintf(output_file, "\n");
     }
   }
-
   fclose(output_file);
 }
 
