@@ -25,12 +25,15 @@ void fauna_database_and_matching(struct flora *flora, struct matched_flora *matc
   }
 
   read_fauna_database(fauna);
-  printf("\n\nFauna database:\n");
-  printFaunaArray(fauna);
+  if(DEBUG){
+    printf("\n\nFauna database:\n");
+    printFaunaArray(fauna);
+  }
 
   fauna_matching(fauna, flora, matched_flora);
   printf("\nMatched flora and fauna:\n");
-  print_matched_flora(matched_flora);
+  if(DEBUG)
+    print_matched_flora(matched_flora);
 }
 
 void read_fauna_database(struct fauna *fauna) {
