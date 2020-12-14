@@ -98,8 +98,9 @@ int DEBUG = 0;
 
 /* Main */
 int main(int argc, char const *argv[]) {
-  if (argc > 1 && strcmp(argv[1], "--debug") == 0)
+  if (argc > 1 && strcmp(argv[1], "--debug") == 0){
     DEBUG = 1;
+  }
   if (argc > 1 && strcmp(argv[1], "--test") == 0) {
     RunAllTests();
   } else {
