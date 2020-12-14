@@ -16,7 +16,6 @@ void print_flora_array(struct flora *flora);
 
 /* Function for handling all of the flora block */
 void flora_database_and_matching(struct area area, struct flora *flora, struct matched_flora *matched_flora) {
-  printf("Flora header file working\n");
   int i;
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     flora[i] = (struct flora) {"", "", 0, 0, 0, 0, 0, 0};
@@ -24,7 +23,10 @@ void flora_database_and_matching(struct area area, struct flora *flora, struct m
 
   read_flora_database(flora);
   add_mfo_to_flora(flora);
-  print_flora_array(flora);
+  if(DEBUG){
+    printf("Flora database:\n");
+    print_flora_array(flora);
+  }
 
   for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
     matched_flora[i] = (struct matched_flora) {""};
