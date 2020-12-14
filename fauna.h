@@ -5,18 +5,18 @@
 /*
 Function declarations for accessing and modifying fauna database
 */
-void fauna_database_and_matching(struct flora *flora, struct matched_flora *matched_flora, struct fauna *fauna);
+void fauna_database_and_matching(struct matched_flora *matched_flora, struct fauna *fauna);
 void read_fauna_database(struct fauna *fauna);
 void printFaunaArray(struct fauna *fauna);
 char *endanger_name (enum red_list_categories endangerlvl);
 void read_plants (struct fauna *fauna, char *line);
-void fauna_matching (struct fauna *fauna, struct flora *flora, struct matched_flora *matched_flora);
+void fauna_matching (struct fauna *fauna, struct matched_flora *matched_flora);
 struct matched_flora add_fauna_to_matched_flora(char* faunaLatinName, struct matched_flora matched_flora);
 void get_plant_family_name (const char* latinName, char familyName[40]);
 void print_matched_flora(struct matched_flora *matched_flora);
 
 
-void fauna_database_and_matching(struct flora *flora, struct matched_flora *matched_flora, struct fauna *fauna) {
+void fauna_database_and_matching(struct matched_flora *matched_flora, struct fauna *fauna) {
   int i;
 
   /* Empties fauna array */
@@ -26,14 +26,15 @@ void fauna_database_and_matching(struct flora *flora, struct matched_flora *matc
 
   read_fauna_database(fauna);
   if(DEBUG){
-    printf("\n\nFauna database:\n");
+    printf("\n[Fauna database]\n");
     printFaunaArray(fauna);
   }
 
-  fauna_matching(fauna, flora, matched_flora);
-  printf("\nMatched flora and fauna:\n");
-  if(DEBUG)
+  fauna_matching(fauna, matched_flora);
+  if(DEBUG){
+    printf("\n[Matched flora and fauna]\n");
     print_matched_flora(matched_flora);
+  }
 }
 
 void read_fauna_database(struct fauna *fauna) {
@@ -49,15 +50,14 @@ void read_fauna_database(struct fauna *fauna) {
         /* We validate the first line, containing headers of the file */
         fgets(line, STR_LENGTH, fauna_ptr);
         if(!(strncmp(line, "Dansk navn,Latinsk navn,Truet,Nytteplante 1,Nytteplante 2,Nytteplante 3,Nytteplante 4,Nytteplante 5,Nytteplante 6", 113)) == 0) {
-            printf("Headers in fauna csv file incorrect!\n");
+            printf("Headers in fauna.csv file are incorrect!\n");
             exit(EXIT_FAILURE);
         }
-
+        /*get lines until at the end of file*/
         while (fgets(line, STR_LENGTH, fauna_ptr) != NULL){
             sscanf(line, " %[^,] , %[^,] , %i ", read_fauna.danishName, read_fauna.latinName, &danger_category);
-
             read_fauna.endangerlvl = (enum red_list_categories)danger_category;
-
+            /*allocate space for strings and set them to be empty*/
             for(i = 0; i < FAUNA_PLANTS_ARRAY_SIZE; i++){
                 if((read_fauna.plants[i] = (char *)malloc(40*sizeof(char))) == NULL){
                     printf("Malloc fail");
@@ -65,7 +65,6 @@ void read_fauna_database(struct fauna *fauna) {
                 }
                 strcpy(read_fauna.plants[i], "");
             }
-
             read_plants(&read_fauna, line);
             to_upper(read_fauna.latinName);
 
@@ -100,8 +99,7 @@ void read_plants(struct fauna *fauna, char *line){
         i++;
     }
 }
-
-
+/*Debug option to print the fauna array*/
 void printFaunaArray(struct fauna *fauna) {
   int i, j = 0;
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
@@ -117,7 +115,7 @@ void printFaunaArray(struct fauna *fauna) {
     }
   }
 }
-
+/*returns the name of the Enum value*/
 char *endanger_name (enum red_list_categories endangerlvl){
     switch (endangerlvl) {
         case RE:
@@ -143,7 +141,7 @@ char *endanger_name (enum red_list_categories endangerlvl){
     }
 }
 
-void fauna_matching (struct fauna *fauna, struct flora *flora, struct matched_flora *matched_flora) {
+void fauna_matching (struct fauna *fauna, struct matched_flora *matched_flora) {
   int i, j, k;
   char plantFamilyName[40];
 
@@ -185,29 +183,27 @@ void fauna_matching (struct fauna *fauna, struct flora *flora, struct matched_fl
 
 struct matched_flora add_fauna_to_matched_flora(char* faunaLatinName, struct matched_flora matched_flora) {
   int i = 0;
+  /*contiues until a empty string is found*/
   while (i <= 10 && (strcmp(matched_flora.matchedFaunaLatinName[i], "") != 0)) {
     i++;
   }
-
   if (i == 10) {
     printf("Error: matched_flora out of memorry for fauna \n");
     exit(EXIT_FAILURE);
   }
 
   strcpy(matched_flora.matchedFaunaLatinName[i], faunaLatinName);
-
   return matched_flora;
-
 }
-
+/*gets the family name of a plants latin name*/
 void get_plant_family_name (const char* latinName, char* familyName) {
   int i, split;
   int size = strlen(latinName);
 
   split = size;
   for (i = 0; i < size; i++) {
-    int result = (latinName[i] == ' ');
-    if (result) {
+    /*stop if a space is found*/
+    if (latinName[i] == ' ') {
       split = i;
       break;
     }
@@ -215,15 +211,14 @@ void get_plant_family_name (const char* latinName, char* familyName) {
 
   strncpy(familyName, latinName, split);
   familyName[split] = '\0';
-
 }
-
+/*Debug option for printing the matched flora and fauna*/
 void print_matched_flora(struct matched_flora *matched_flora) {
-  int i;
+  int i, j;
   for (i = 0; i < MAX_NUMBER_OF_MATCHES; i++) {
     if (strcmp(matched_flora[i].floraLatinName, "") != 0) {
       printf("%-40s", matched_flora[i].floraLatinName);
-      int j = 0;
+      j = 0;
       while (strcmp(matched_flora[i].matchedFaunaLatinName[j], "") != 0 && j < 10) {
         printf(" | %-40s", matched_flora[i].matchedFaunaLatinName[j]);
         j++;
@@ -231,4 +226,5 @@ void print_matched_flora(struct matched_flora *matched_flora) {
       printf("\n");
     }
   }
+  printf("\n");
 }

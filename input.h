@@ -19,24 +19,24 @@ struct area read_input(void) {
   printf("\nIndtast omraadet du oensker omlagt til MFO's stoerrelse i ha. (decimaltal):\n");
   area.mfoArea = get_input(0, 0, 0);
 
-  printf("\nIndtast MFO arealets jords tunghed. (1-10, heltal):\n");
-  area.heaviness = get_input(1, 1, 10);
+  printf("\nIndtast MFO arealets jords tunghed. (1-9, heltal):\n");
+  area.heaviness = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords lysforhold. (1-10, heltal):\n");
-  area.light = get_input(1, 1, 10);
+  printf("\nIndtast MFO arealets jords lysforhold. (1-9, heltal):\n");
+  area.light = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords pH-vaerdi. (0-14, heltal):\n");
-  area.pH = get_input(1, 1, 14);
+  printf("\nIndtast MFO arealets jords pH-vaerdi. (0-9, heltal):\n");
+  area.pH = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords naeringsstofsindhold. (1-10, heltal):\n");
-  area.nutrient = get_input(1, 1, 10);
+  printf("\nIndtast MFO arealets jords naeringsstofsindhold. (1-9, heltal):\n");
+  area.nutrient = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords fugtighed. (1-10, heltal):\n");
-  area.moistness = get_input(1, 1, 10);
+  printf("\nIndtast MFO arealets jords fugtighed. (1-12, heltal):\n");
+  area.moistness = get_input(1, 1, 12);
 
   return area;
 }
-
+/*Bool function that verifies if the input is between the boundries*/
 int inputVerification(int input, int lower_boundry, int upper_boundry){
   return lower_boundry <= input && input <= upper_boundry;
 }
@@ -53,8 +53,8 @@ int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry){
     error_40(&checker);
     scanf(" %f", &input);
   } while(ellenberg_value_condition(input, is_ellenberg_value, lower_boundry, upper_boundry));
-
-  if (is_ellenberg_value == 0)
+  /*if it isn't a ellenberg value, then it needs to be converted from ha to m2*/
+  if (!is_ellenberg_value)
     input = ha_to_m2_converter(input);
 
   return (int) input;
