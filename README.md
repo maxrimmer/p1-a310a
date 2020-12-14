@@ -5,4 +5,4 @@ Compile with `gcc allTests.c CuTest.c p1-a310a.c -o MFO-matcher` or `minGW32-mak
 
 For running unit tests, run with argument `--test`
 
-For debugging, run with argument `--test`
+For debugging, run with argument `--debug`
