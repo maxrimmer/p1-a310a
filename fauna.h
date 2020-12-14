@@ -49,7 +49,7 @@ void read_fauna_database(struct fauna *fauna) {
     if (fauna_ptr != NULL){
         /* We validate the first line, containing headers of the file */
         fgets(line, STR_LENGTH, fauna_ptr);
-        if(!(strncmp(line, "Dansk navn,Latinsk navn,Truet,Nytteplante 1,Nytteplante 2,Nytteplante 3,Nytteplante 4,Nytteplante 5,Nytteplante 6", 113)) == 0) {
+        if(strncmp(line, "Dansk navn,Latinsk navn,Truet,Nytteplante 1,Nytteplante 2,Nytteplante 3,Nytteplante 4,Nytteplante 5,Nytteplante 6", 113) != 0) {
             printf("Headers in fauna.csv file are incorrect!\n");
             exit(EXIT_FAILURE);
         }
