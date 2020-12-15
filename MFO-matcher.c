@@ -114,7 +114,7 @@ int main(int argc, char const *argv[]) {
 
     flora_database_and_matching(area, matched_flora);
     fauna_database_and_matching(matched_flora);
-    create_output(matched_flora);
+    create_output(matched_flora, area);
   }
 
   return EXIT_SUCCESS;
