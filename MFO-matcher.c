@@ -29,9 +29,9 @@ void RunAllTests(void);
 struct area {
   int heaviness;
   int light;
-  int pH;
+  int calcium;
   int nutrient;
-  int moistness;
+  int moisture;
   int totalArea;
   int mfoArea;
 };
@@ -60,9 +60,9 @@ struct flora {
   int lifespan;
   int heaviness;
   int light;
-  int pH;
+  int calcium;
   int nutrient;
-  int moistness;
+  int moisture;
   /*
   mfoTypes is boolean:
   mfoTypes[mfoBraemmer] is approved for MFO-braemmer
@@ -88,6 +88,10 @@ struct fauna {
 /*Global debug option*/
 int DEBUG = 0;
 
+/* Global flora and fauna struct arrays */
+struct flora flora[HASH_ARRAY_SIZE];
+struct fauna fauna[HASH_ARRAY_SIZE];
+
 /* Custom header files */
 #include "input.h"
 #include "flora.h"
@@ -101,18 +105,18 @@ int main(int argc, char const *argv[]) {
   if (argc > 1 && strcmp(argv[1], "--debug") == 0){
     DEBUG = 1;
   }
+
   if (argc > 1 && strcmp(argv[1], "--test") == 0) {
     RunAllTests();
   } else {
     struct area area = read_input();
     struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
-    struct flora flora[HASH_ARRAY_SIZE];
-    struct fauna fauna[HASH_ARRAY_SIZE];
 
-    flora_database_and_matching(area, flora, matched_flora);
-    fauna_database_and_matching(matched_flora, fauna);
-    create_output(matched_flora, flora, fauna);
+    flora_database_and_matching(area, matched_flora);
+    fauna_database_and_matching(matched_flora);
+    create_output(matched_flora);
   }
+
   return EXIT_SUCCESS;
 }
 
@@ -128,15 +132,15 @@ void to_upper(char *capitalise) {
 /* CuTests */
 void TestStrToUpperAlpha(CuTest *tc) {
        char* input = strdup("hello world");
-       to_upper(input);
        char* expected = "HELLO WORLD";
+       to_upper(input);
        CuAssertStrEquals(tc, expected, input);
 }
 
 void TestStrToUpperSpecialChars(CuTest *tc) {
        char* input = strdup("HeLoLo @@ ## test 1234");
-       to_upper(input);
        char* expected = "HELOLO @@ ## TEST 1234";
+       to_upper(input);
        CuAssertStrEquals(tc, expected, input);
 }
 
@@ -157,8 +161,8 @@ void TestIntAprovedForMFOBestoeverbrak(CuTest *tc) {
 void TestStrGetPlantFamilyName(CuTest *tc) {
        char* inputValue = strdup("Magnus Ditlev");
        char input[20];
-       get_plant_family_name(inputValue, input);
        char *expected =  strdup("Magnus");
+       get_plant_family_name(inputValue, input);
        CuAssertStrEquals(tc, expected, input);
 }
 
@@ -178,8 +182,9 @@ int hash(char *str) {
   unsigned long hash = 5381;
   int c;
 
-  while ((c = *str++))
+  while ((c = *str++)) {
     hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  }
   /* Hash is trimmed to the HASHTABLE_SIZE */
   hash %= FLORA_HASH_ARRAY_SIZE;
 
@@ -195,5 +200,6 @@ int in_array(char* needle, const char** haystack, int size) {
       return 1;
     }
   }
+  
   return 0;
 }
