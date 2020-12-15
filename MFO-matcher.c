@@ -105,6 +105,7 @@ int main(int argc, char const *argv[]) {
   if (argc > 1 && strcmp(argv[1], "--debug") == 0){
     DEBUG = 1;
   }
+
   if (argc > 1 && strcmp(argv[1], "--test") == 0) {
     RunAllTests();
   } else {
@@ -115,6 +116,7 @@ int main(int argc, char const *argv[]) {
     fauna_database_and_matching(matched_flora);
     create_output(matched_flora);
   }
+
   return EXIT_SUCCESS;
 }
 
@@ -180,8 +182,9 @@ int hash(char *str) {
   unsigned long hash = 5381;
   int c;
 
-  while ((c = *str++))
+  while ((c = *str++)) {
     hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  }
   /* Hash is trimmed to the HASHTABLE_SIZE */
   hash %= FLORA_HASH_ARRAY_SIZE;
 
@@ -197,5 +200,6 @@ int in_array(char* needle, const char** haystack, int size) {
       return 1;
     }
   }
+  
   return 0;
 }

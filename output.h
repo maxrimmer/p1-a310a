@@ -37,14 +37,17 @@ void create_output(struct matched_flora *matched_flora) {
           printf(",");
           fprintf(output_file, ",");
         }
+
         printf(" %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
         fprintf(output_file, " %s (%s)", fauna[faunaHash].danishName, endanger_name(fauna[faunaHash].endangerlvl));
         j++;
       }
+
       printf("\n");
       fprintf(output_file, "\n");
     }
   }
+
   fclose(output_file);
 }
 
@@ -120,6 +123,7 @@ void print_mfo_types(int mfoTypes[3], FILE *output_file) {
   } else {
     mfoPrint = "";
   }
+  
   printf(" %-54s |", mfoPrint);
   fprintf(output_file, " %-54s |", mfoPrint);
 }
