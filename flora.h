@@ -26,12 +26,12 @@ void flora_database_and_matching(struct area area, struct flora *flora, struct m
 
   read_flora_database(flora);
   add_mfo_to_flora(flora);
-  if(DEBUG){
+  if (DEBUG) {
     printf("[Flora database]\n");
     print_flora_array(flora);
   }
   /*set empty flora names*/
-  for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
+  for (i = 0; i < MAX_NUMBER_OF_MATCHES; i++) {
     matched_flora[i] = emptyMatch;
   }
 
@@ -51,7 +51,7 @@ void read_flora_database(struct flora *flora) {
   if (flora_file != NULL) {
     /* We validate the first line, containing headers of the file */
     fgets(line, LINE_STR_LEN, flora_file);
-    if(strncmp(line, "Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvaelstof (N),Fugtighedstal (F)", 109) != 0) {
+    if (strncmp(line, "Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvaelstof (N),Fugtighedstal (F)", 109) != 0) {
       printf("Headers in flora.csv file are incorrect!\n");
       exit(EXIT_FAILURE);
     }
@@ -139,13 +139,13 @@ int is_approved_for_mfo_bestoeverbrak (char* latinName) {
 
 }
 
-void flora_matching (struct flora *flora_array, struct area area, struct matched_flora *matched_flora){
+void flora_matching (struct flora *flora_array, struct area area, struct matched_flora *matched_flora) {
   int i, count = 0;
-  for(i = 0; i < FLORA_HASH_ARRAY_SIZE; i++){
+  for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     /*if the string isn't empty*/
-    if(strcmp(flora_array[i].latinName, "") != 0){
+    if (strcmp(flora_array[i].latinName, "") != 0) {
       /*and the area parameters matches*/
-      if(is_match_flora(flora_array[i], area)){
+      if (is_match_flora(flora_array[i], area)) {
         strcpy(matched_flora[count].floraLatinName, flora_array[i].latinName);
         count++;
       }
@@ -153,29 +153,29 @@ void flora_matching (struct flora *flora_array, struct area area, struct matched
   }
 }
 
-int is_match_flora(struct flora flora, struct area area){
+int is_match_flora(struct flora flora, struct area area) {
 /*if any of the if statements are true return 0 else return 1*/
-  if(!flora_matching_checking(area.heaviness, flora.heaviness) && flora.heaviness != -1)
+  if (!flora_matching_checking(area.heaviness, flora.heaviness) && flora.heaviness != -1) {
     return 0;
-
-  if(!flora_matching_checking(area.light, flora.light) && flora.light != -1)
+  }
+  if (!flora_matching_checking(area.light, flora.light) && flora.light != -1) {
     return 0;
-
-  if(!flora_matching_checking(area.moistness, flora.moistness) && flora.moistness != -1)
+  }
+  if (!flora_matching_checking(area.moistness, flora.moistness) && flora.moistness != -1) {
     return 0;
-
-  if(!flora_matching_checking(area.nutrient, flora.nutrient) && flora.nutrient != -1)
+  }
+  if (!flora_matching_checking(area.nutrient, flora.nutrient) && flora.nutrient != -1) {
     return 0;
-
-  if(!flora_matching_checking(area.pH, flora.pH) && flora.pH != -1)
+  }
+  if (!flora_matching_checking(area.pH, flora.pH) && flora.pH != -1) {
     return 0;
-
+  }
   return 1;
 }
 
-int flora_matching_checking(int area_attribute, int flora_attribute){
+int flora_matching_checking(int area_attribute, int flora_attribute) {
   /*check if the atributes match with a +- 1 buffer*/
-  if((area_attribute - flora_attribute) <= 1 && (area_attribute - flora_attribute) >= -1){
+  if ((area_attribute - flora_attribute) <= 1 && (area_attribute - flora_attribute) >= -1) {
     return 1;
   }
   return 0;

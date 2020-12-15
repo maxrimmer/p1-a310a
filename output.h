@@ -8,7 +8,6 @@ for printing results to .txt file
 void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna);
 void print_mfo_types(int mfoTypes[3], FILE *output_file);
 
-
 void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna) {
   int i, j;
   FILE *output_file;
