@@ -8,7 +8,7 @@ for printing results to .txt file
 void create_output(struct matched_flora *matched_flora);
 int compFunc (const void * a, const void * b);
 int mfo_types_sum(int mfoTypes[3]);
-int vulnerability_average(struct matched_flora *matched_flora);
+float vulnerability_average(struct matched_flora *matched_flora);
 void print_mfo_types(int mfoTypes[3], FILE *output_file);
 
 
@@ -49,7 +49,7 @@ void create_output(struct matched_flora *matched_flora) {
 }
 
 /* Comparison function for qsort */
-int compFunc (const void * a, const void * b) {
+int compFunc (const void *a, const void *b) {
   struct matched_flora *matched_flora1 = (struct matched_flora *)a;
   struct matched_flora *matched_flora2 = (struct matched_flora *)b;
 
@@ -95,7 +95,7 @@ int mfo_types_sum(int mfoTypes[3]) {
   return sum;
 }
 
-int vulnerability_average(struct matched_flora *matched_flora) {
+float vulnerability_average(struct matched_flora *matched_flora) {
   int i = 0, sum = 0;
   while (strcmp(matched_flora->matchedFaunaLatinName[i], "") != 0 && i < 10) {
     int faunaHash = hash(matched_flora->matchedFaunaLatinName[i]);
@@ -107,7 +107,8 @@ int vulnerability_average(struct matched_flora *matched_flora) {
     return 1000;
   }
 
-  return sum/(i+1);
+/* Returning average, with bias for more fauna */
+  return (float) sum/ (float) (i+1) - (i*0.5);
 }
 
 void print_mfo_types(int mfoTypes[3], FILE *output_file) {
