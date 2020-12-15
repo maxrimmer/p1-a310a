@@ -19,6 +19,7 @@ void flora_database_and_matching(struct area area, struct flora *flora, struct m
   int i;
   struct flora emptyFlora = {"", "", 0, 0, 0, 0, 0, 0};
   struct matched_flora emptyMatch = {""};
+
   /*create empty flora structs*/
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     flora[i] = emptyFlora;
@@ -43,20 +44,18 @@ void read_flora_database(struct flora *flora) {
   char* latinName;
   char line[LINE_STR_LEN];
   struct flora readFlora;
-
   FILE *flora_file;
   flora_file = fopen(FLORA_DATABASE, "r");
-
 
   if (flora_file != NULL) {
     /* We validate the first line, containing headers of the file */
     fgets(line, LINE_STR_LEN, flora_file);
+
     if (strncmp(line, "Dansk navn,Latinsk navn,Levetid (aar),Tunghed(1-10),Lystal (L),Calciumtal (R),Kvaelstof (N),Fugtighedstal (F)", 109) != 0) {
       printf("Headers in flora.csv file are incorrect!\n");
       exit(EXIT_FAILURE);
     }
     while (fgets(line, LINE_STR_LEN, flora_file) != NULL) {
-
       sscanf(line, " %[^,] , %[^,] , %d , %d , %d , %d , %d , %d ",
       readFlora.danishName, readFlora.latinName, &readFlora.lifespan,
       &readFlora.heaviness, &readFlora.light,    &readFlora.pH,
@@ -99,6 +98,7 @@ int is_approved_for_mfo_braemme_or_mfo_brak (int lifespan) {
   if (lifespan == 1) {
     return 1;
   }
+
   return 0;
 }
 
@@ -141,6 +141,7 @@ int is_approved_for_mfo_bestoeverbrak (char* latinName) {
 
 void flora_matching (struct flora *flora_array, struct area area, struct matched_flora *matched_flora) {
   int i, count = 0;
+
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     /*if the string isn't empty*/
     if (strcmp(flora_array[i].latinName, "") != 0) {
@@ -178,6 +179,7 @@ int flora_matching_checking(int area_attribute, int flora_attribute) {
   if ((area_attribute - flora_attribute) <= 1 && (area_attribute - flora_attribute) >= -1) {
     return 1;
   }
+
   return 0;
 }
 
@@ -195,12 +197,15 @@ void print_flora_array(struct flora *flora) {
       if (flora[i].mfoTypes[mfoBraemmer]) {
         printf(" | Godkendt til MFO-braemmer");
       }
+
       if (flora[i].mfoTypes[mfoBrak]) {
         printf(" | Godkendt til MFO-brak");
       }
+
       if (flora[i].mfoTypes[mfoBestoeverbrak]) {
         printf(" | Godkendt til MFO-blomster- og bestoeverbrak");
       }
+      
       printf("\n");
     }
   }

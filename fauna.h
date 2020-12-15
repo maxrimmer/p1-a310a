@@ -24,13 +24,11 @@ void fauna_database_and_matching(struct matched_flora *matched_flora, struct fau
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     fauna[i] = emptyFauna;
   }
-
   read_fauna_database(fauna);
   if (DEBUG) {
     printf("\n[Fauna database]\n");
     printFaunaArray(fauna);
   }
-
   fauna_matching(fauna, matched_flora);
   if (DEBUG) {
     printf("\n[Matched flora and fauna]\n");
@@ -64,8 +62,10 @@ void read_fauna_database(struct fauna *fauna) {
           printf("Malloc fail");
           exit(EXIT_FAILURE);
         }
+
         strcpy(read_fauna.plants[i], "");
       }
+
       read_plants(&read_fauna, line);
       to_upper(read_fauna.latinName);
       latinName = read_fauna.latinName;
@@ -155,14 +155,13 @@ void fauna_matching (struct fauna *fauna, struct matched_flora *matched_flora) {
     }
   }
 
-  /* Foreach fauna */
+  /* For each fauna */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(fauna[i].latinName, "") != 0) {
-      /* Foreach flora in fauna */
+      /* For each flora in fauna */
       j = 0;
       while (strcmp(fauna[i].plants[j], "") != 0) {
-
-        /* Foreach matched_flora */
+        /* For each matched_flora */
         k = 0;
         while (strcmp(matched_flora[k].floraLatinName, "") != 0 && k < MAX_NUMBER_OF_MATCHES) {
           get_plant_family_name(matched_flora[k].floraLatinName, plantFamilyName);
@@ -176,8 +175,10 @@ void fauna_matching (struct fauna *fauna, struct matched_flora *matched_flora) {
             /* Add fauna.latinName[j] to matched_flora.matchedFaunaLatinName */
             matched_flora[k] = add_fauna_to_matched_flora(fauna[i].latinName, matched_flora[k]);
           }
+
           k++;
         }
+
         j++;
       }
     }
@@ -186,7 +187,7 @@ void fauna_matching (struct fauna *fauna, struct matched_flora *matched_flora) {
 
 struct matched_flora add_fauna_to_matched_flora(char* faunaLatinName, struct matched_flora matched_flora) {
   int i = 0;
-  /*contiues until a empty string is found*/
+  /*continues until a empty string is found*/
   while (i <= 10 && (strcmp(matched_flora.matchedFaunaLatinName[i], "") != 0)) {
     i++;
   }
@@ -227,8 +228,10 @@ void print_matched_flora(struct matched_flora *matched_flora) {
         printf(" | %-40s", matched_flora[i].matchedFaunaLatinName[j]);
         j++;
       }
+
       printf("\n");
     }
   }
+  
   printf("\n");
 }
