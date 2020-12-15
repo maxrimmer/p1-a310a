@@ -5,18 +5,19 @@ for printing results to .txt file
 */
 
 /* Prototypes */
-void create_output(struct matched_flora *matched_flora);
+void create_output(struct matched_flora *matched_flora, struct area area);
 int compFunc (const void * a, const void * b);
 int mfo_types_sum(int mfoTypes[3]);
 float vulnerability_average(struct matched_flora *matched_flora);
 void print_mfo_types(int mfoTypes[3], FILE *output_file);
+void mfo_area_percentage (struct area area, FILE *output_file);
 
-
-void create_output(struct matched_flora *matched_flora) {
+void create_output(struct matched_flora *matched_flora, struct area area) {
   int i, j;
   FILE *output_file;
   output_file = fopen (OUTPUT_FILE_NAME, "w+");
 
+  mfo_area_percentage (area, output_file);
   printf("%-40s | %-54s | %s\n", "Plantens navn", "MFO-omraader planten er godkendt til", "Insekter planten gavner");
   fprintf(output_file, "%-40s | %-54s | %s\n", "Plantens navn", "MFO-omraader planten er godkendt til", "Insekter planten gavner");
 
@@ -126,4 +127,10 @@ void print_mfo_types(int mfoTypes[3], FILE *output_file) {
   
   printf(" %-54s |", mfoPrint);
   fprintf(output_file, " %-54s |", mfoPrint);
+}
+
+void mfo_area_percentage (struct area area, FILE *output_file){
+  float procent_of_mfo = 0;
+  procent_of_mfo = (float) area.mfoArea / (float) area.totalArea * 100;
+  printf("Omraadet omlagt til MFO er %.2f procent af totale det areal.\n", procent_of_mfo);
 }

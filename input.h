@@ -80,3 +80,4 @@ int ellenberg_value_condition(int input, int is_ellenberg_value, int lower_bound
   
   return input <= 0.0;
 }
+
