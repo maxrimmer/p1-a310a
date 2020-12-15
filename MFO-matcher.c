@@ -128,15 +128,15 @@ void to_upper(char *capitalise) {
 /* CuTests */
 void TestStrToUpperAlpha(CuTest *tc) {
        char* input = strdup("hello world");
-       to_upper(input);
        char* expected = "HELLO WORLD";
+       to_upper(input);
        CuAssertStrEquals(tc, expected, input);
 }
 
 void TestStrToUpperSpecialChars(CuTest *tc) {
        char* input = strdup("HeLoLo @@ ## test 1234");
-       to_upper(input);
        char* expected = "HELOLO @@ ## TEST 1234";
+       to_upper(input);
        CuAssertStrEquals(tc, expected, input);
 }
 
@@ -157,8 +157,8 @@ void TestIntAprovedForMFOBestoeverbrak(CuTest *tc) {
 void TestStrGetPlantFamilyName(CuTest *tc) {
        char* inputValue = strdup("Magnus Ditlev");
        char input[20];
-       get_plant_family_name(inputValue, input);
        char *expected =  strdup("Magnus");
+       get_plant_family_name(inputValue, input);
        CuAssertStrEquals(tc, expected, input);
 }
 
