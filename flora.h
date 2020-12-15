@@ -17,9 +17,11 @@ void print_flora_array(struct flora *flora);
 /* Function for handling all of the flora block */
 void flora_database_and_matching(struct area area, struct flora *flora, struct matched_flora *matched_flora) {
   int i;
+  struct flora emptyFlora = {"", "", 0, 0, 0, 0, 0, 0};
+  struct matched_flora emptyMatch = {""};
   /*create empty flora structs*/
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
-    flora[i] = (struct flora) {"", "", 0, 0, 0, 0, 0, 0};
+    flora[i] = emptyFlora;
   }
 
   read_flora_database(flora);
@@ -30,7 +32,7 @@ void flora_database_and_matching(struct area area, struct flora *flora, struct m
   }
   /*set empty flora names*/
   for(i = 0; i < MAX_NUMBER_OF_MATCHES; i++){
-    matched_flora[i] = (struct matched_flora) {""};
+    matched_flora[i] = emptyMatch;
   }
 
   flora_matching(flora, area, matched_flora);

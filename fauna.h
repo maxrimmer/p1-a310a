@@ -18,10 +18,11 @@ void print_matched_flora(struct matched_flora *matched_flora);
 
 void fauna_database_and_matching(struct matched_flora *matched_flora, struct fauna *fauna) {
   int i;
+  struct fauna empty = {"", "", 0};
 
   /* Empties fauna array */
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
-    fauna[i] = (struct fauna) {"", "", 0};
+    fauna[i] = empty;
   }
 
   read_fauna_database(fauna);
