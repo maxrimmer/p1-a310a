@@ -5,6 +5,7 @@ int ha_to_m2_converter(float ha);
 void error_40(int *checker);
 int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry);
 int ellenberg_value_condition (int input, int is_ellenburg_value, int lower_boundry, int upper_boundry);
+void mfoarea_seize (struct area area);
 
 struct area read_input(void) {
   struct area area;
@@ -33,6 +34,8 @@ struct area read_input(void) {
 
   printf("\nIndtast MFO arealets jords fugtighed. (1-12, heltal):\n");
   area.moistness = get_input(1, 1, 12);
+
+  mfoarea_seize (area);
 
   return area;
 }
@@ -73,4 +76,10 @@ int ellenberg_value_condition (int input, int is_ellenburg_value, int lower_boun
     return !inputVerification(input, lower_boundry, upper_boundry);
   }
   return input <= 0.0;
+}
+
+void mfoarea_seize (struct area area){
+  float size_of_mfo = 0;
+  size_of_mfo = (float) area.mfoArea / (float) area.totalArea * 100;
+  printf("Omraadet omlagt til MFO er %.2f procent af totale det areal.\n", size_of_mfo);
 }
