@@ -4,18 +4,18 @@
 /*
 Function declarations for accessing and modifying flora database
 */
-void flora_database_and_matching(struct area area, struct flora *flora, struct matched_flora *matched_flora);
-void read_flora_database(struct flora *flora);
-void add_mfo_to_flora(struct flora *flora);
+void flora_database_and_matching(struct area area, struct matched_flora *matched_flora);
+void read_flora_database();
+void add_mfo_to_flora();
 int is_approved_for_mfo_braemme_or_mfo_brak (int lifespan);
 int is_approved_for_mfo_bestoeverbrak (char* latinName);
-void flora_matching(struct flora *flora_array, struct area area, struct matched_flora *matched_flora);
-int is_match_flora(struct flora flora_array, struct area area);
-int flora_matching_checking(int area, int flora_array);
-void print_flora_array(struct flora *flora);
+void flora_matching(struct area area, struct matched_flora *matched_flora);
+int is_match_flora(struct flora flora, struct area area);
+int flora_matching_checking(int area_attribute, int flora_attribute);
+void print_flora_array();
 
 /* Function for handling all of the flora block */
-void flora_database_and_matching(struct area area, struct flora *flora, struct matched_flora *matched_flora) {
+void flora_database_and_matching(struct area area, struct matched_flora *matched_flora) {
   int i;
   struct flora emptyFlora = {"", "", 0, 0, 0, 0, 0, 0};
   struct matched_flora emptyMatch = {""};
@@ -25,21 +25,21 @@ void flora_database_and_matching(struct area area, struct flora *flora, struct m
     flora[i] = emptyFlora;
   }
 
-  read_flora_database(flora);
-  add_mfo_to_flora(flora);
-  if (DEBUG) {
+  read_flora_database();
+  add_mfo_to_flora();
+  if(DEBUG){
     printf("[Flora database]\n");
-    print_flora_array(flora);
+    print_flora_array();
   }
   /*set empty flora names*/
   for (i = 0; i < MAX_NUMBER_OF_MATCHES; i++) {
     matched_flora[i] = emptyMatch;
   }
 
-  flora_matching(flora, area, matched_flora);
+  flora_matching(area, matched_flora);
 }
 
-void read_flora_database(struct flora *flora) {
+void read_flora_database() {
   int hashName;
   char* latinName;
   char line[LINE_STR_LEN];
@@ -71,7 +71,7 @@ void read_flora_database(struct flora *flora) {
 }
 
 /* Function for adding MFO data to the flora struct */
-void add_mfo_to_flora (struct flora *flora) {
+void add_mfo_to_flora () {
   int i;
 
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
@@ -139,15 +139,15 @@ int is_approved_for_mfo_bestoeverbrak (char* latinName) {
 
 }
 
-void flora_matching (struct flora *flora_array, struct area area, struct matched_flora *matched_flora) {
+void flora_matching (struct area area, struct matched_flora *matched_flora){
   int i, count = 0;
 
   for (i = 0; i < FLORA_HASH_ARRAY_SIZE; i++) {
     /*if the string isn't empty*/
-    if (strcmp(flora_array[i].latinName, "") != 0) {
+    if(strcmp(flora[i].latinName, "") != 0){
       /*and the area parameters matches*/
-      if (is_match_flora(flora_array[i], area)) {
-        strcpy(matched_flora[count].floraLatinName, flora_array[i].latinName);
+      if(is_match_flora(flora[i], area)){
+        strcpy(matched_flora[count].floraLatinName, flora[i].latinName);
         count++;
       }
     }
@@ -184,7 +184,7 @@ int flora_matching_checking(int area_attribute, int flora_attribute) {
 }
 
 /*Debug option to print the flora database*/
-void print_flora_array(struct flora *flora) {
+void print_flora_array() {
   int i;
 
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {

@@ -88,6 +88,10 @@ struct fauna {
 /*Global debug option*/
 int DEBUG = 0;
 
+/* Global flora and fauna struct arrays */
+struct flora flora[HASH_ARRAY_SIZE];
+struct fauna fauna[HASH_ARRAY_SIZE];
+
 /* Custom header files */
 #include "input.h"
 #include "flora.h"
@@ -107,12 +111,10 @@ int main(int argc, char const *argv[]) {
   } else {
     struct area area = read_input();
     struct matched_flora matched_flora[MAX_NUMBER_OF_MATCHES];
-    struct flora flora[HASH_ARRAY_SIZE];
-    struct fauna fauna[HASH_ARRAY_SIZE];
 
-    flora_database_and_matching(area, flora, matched_flora);
-    fauna_database_and_matching(matched_flora, fauna);
-    create_output(matched_flora, flora, fauna);
+    flora_database_and_matching(area, matched_flora);
+    fauna_database_and_matching(matched_flora);
+    create_output(matched_flora);
   }
 
   return EXIT_SUCCESS;
