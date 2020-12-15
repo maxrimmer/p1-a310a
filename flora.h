@@ -162,15 +162,13 @@ int is_match_flora(struct flora flora, struct area area) {
   if (!flora_matching_checking(area.light, flora.light) && flora.light != -1) {
     return 0;
   }
-
-  if(!flora_matching_checking(area.moisture, flora.moisture) && flora.moisture != -1)
+  if (!flora_matching_checking(area.moisture, flora.moisture) && flora.moisture != -1) {
     return 0;
   }
   if (!flora_matching_checking(area.nutrient, flora.nutrient) && flora.nutrient != -1) {
     return 0;
-
   }
-  if(!flora_matching_checking(area.calcium, flora.calcium) && flora.calcium != -1)
+  if (!flora_matching_checking(area.calcium, flora.calcium) && flora.calcium != -1) {
     return 0;
   }
   return 1;
