@@ -5,18 +5,18 @@
 /*
 Function declarations for accessing and modifying fauna database
 */
-void fauna_database_and_matching(struct matched_flora *matched_flora, struct fauna *fauna);
-void read_fauna_database(struct fauna *fauna);
-void printFaunaArray(struct fauna *fauna);
+void fauna_database_and_matching(struct matched_flora *matched_flora);
+void read_fauna_database();
+void printFaunaArray();
 char *endanger_name (enum red_list_categories endangerlvl);
 void read_plants (struct fauna *fauna, char *line);
-void fauna_matching (struct fauna *fauna, struct matched_flora *matched_flora);
+void fauna_matching (struct matched_flora *matched_flora);
 struct matched_flora add_fauna_to_matched_flora(char* faunaLatinName, struct matched_flora matched_flora);
 void get_plant_family_name (const char* latinName, char familyName[40]);
 void print_matched_flora(struct matched_flora *matched_flora);
 
 
-void fauna_database_and_matching(struct matched_flora *matched_flora, struct fauna *fauna) {
+void fauna_database_and_matching(struct matched_flora *matched_flora) {
   int i;
   struct fauna emptyFauna = {"", "", 0};
 
@@ -25,20 +25,20 @@ void fauna_database_and_matching(struct matched_flora *matched_flora, struct fau
     fauna[i] = emptyFauna;
   }
 
-  read_fauna_database(fauna);
+  read_fauna_database();
   if(DEBUG){
     printf("\n[Fauna database]\n");
-    printFaunaArray(fauna);
+    printFaunaArray();
   }
 
-  fauna_matching(fauna, matched_flora);
+  fauna_matching(matched_flora);
   if(DEBUG){
     printf("\n[Matched flora and fauna]\n");
     print_matched_flora(matched_flora);
   }
 }
 
-void read_fauna_database(struct fauna *fauna) {
+void read_fauna_database() {
     char line[STR_LENGTH];
     int hashName;
     char* latinName;
@@ -101,7 +101,7 @@ void read_plants(struct fauna *fauna, char *line){
     }
 }
 /*Debug option to print the fauna array*/
-void printFaunaArray(struct fauna *fauna) {
+void printFaunaArray() {
   int i, j = 0;
   for (i = 0; i < HASH_ARRAY_SIZE; i++) {
     if (strcmp(fauna[i].latinName, "") != 0) {
@@ -142,7 +142,7 @@ char *endanger_name (enum red_list_categories endangerlvl){
     }
 }
 
-void fauna_matching (struct fauna *fauna, struct matched_flora *matched_flora) {
+void fauna_matching (struct matched_flora *matched_flora) {
   int i, j, k;
   char plantFamilyName[40];
 

@@ -5,11 +5,11 @@ for printing results to .txt file
 */
 
 /* Prototypes */
-void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna);
+void create_output(struct matched_flora *matched_flora);
 void print_mfo_types(int mfoTypes[3], FILE *output_file);
 
 
-void create_output(struct matched_flora *matched_flora, struct flora *flora, struct fauna *fauna) {
+void create_output(struct matched_flora *matched_flora) {
   int i, j;
   FILE *output_file;
   output_file = fopen (OUTPUT_FILE_NAME, "w+");
