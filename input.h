@@ -9,9 +9,12 @@ int ellenberg_value_condition (int input, int is_ellenburg_value, int lower_boun
 struct area read_input(void) {
   struct area area;
   printf("Velkommen til MFO forslag.\n"
-  "Dette program vil ud fra dine indtastede oplysninger om dit areal\n"
+  "Dette program vil ud fra dine indtastede oplysninger om dit areal   \n"
   "foreslaa mulige planter der kan udplantes i arealet samt roedlistede\n"
-  "arter der ville have gavn af disse planter\n");
+  "arter der ville have gavn af disse planter. Arealoplysningerne skal \n"
+  "oplyses ud fra Ellenbergs indikatorvaerdier, information om disse   \n"
+  "kan findes paa kortlink.dk/29ppc , undtagelsen er jordens tunghed   \n"
+  "hvor 1 er sandjord, 9 er lerjord, og 5 er midt i mellem             \n");
 
   printf("\nIndtast dit omdriftsareals stoerrelse i ha. (decimaltal):\n");
   area.totalArea = get_input(0, 0, 0);
@@ -22,16 +25,16 @@ struct area read_input(void) {
   printf("\nIndtast MFO arealets jords tunghed. (1-9, heltal):\n");
   area.heaviness = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords lysforhold. (1-9, heltal):\n");
+  printf("\nIndtast MFO arealets jords lystal. (1-9, heltal):\n");
   area.light = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords pH-vaerdi. (0-9, heltal):\n");
+  printf("\nIndtast MFO arealets jords calciumtal. (1-9, heltal):\n");
   area.pH = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords naeringsstofsindhold. (1-9, heltal):\n");
+  printf("\nIndtast MFO arealets jords kvaelstofstal. (1-9, heltal):\n");
   area.nutrient = get_input(1, 1, 9);
 
-  printf("\nIndtast MFO arealets jords fugtighed. (1-12, heltal):\n");
+  printf("\nIndtast MFO arealets jords fugtighedstal. (1-12, heltal):\n");
   area.moistness = get_input(1, 1, 12);
 
   return area;
