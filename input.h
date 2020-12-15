@@ -29,13 +29,13 @@ struct area read_input(void) {
   area.light = get_input(1, 1, 9);
 
   printf("\nIndtast MFO arealets jords calciumtal. (1-9, heltal):\n");
-  area.pH = get_input(1, 1, 9);
+  area.calcium = get_input(1, 1, 9);
 
   printf("\nIndtast MFO arealets jords kvaelstofstal. (1-9, heltal):\n");
   area.nutrient = get_input(1, 1, 9);
 
   printf("\nIndtast MFO arealets jords fugtighedstal. (1-12, heltal):\n");
-  area.moistness = get_input(1, 1, 12);
+  area.moisture = get_input(1, 1, 12);
 
   return area;
 }
