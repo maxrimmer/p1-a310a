@@ -59,8 +59,8 @@ void read_flora_database(struct flora *flora) {
 
       sscanf(line, " %[^,] , %[^,] , %d , %d , %d , %d , %d , %d ",
       readFlora.danishName, readFlora.latinName, &readFlora.lifespan,
-      &readFlora.heaviness, &readFlora.light,    &readFlora.pH,
-      &readFlora.nutrient,  &readFlora.moistness);
+      &readFlora.heaviness, &readFlora.light,    &readFlora.calcium,
+      &readFlora.nutrient,  &readFlora.moisture);
 
       to_upper(readFlora.latinName);
 
@@ -161,13 +161,13 @@ int is_match_flora(struct flora flora, struct area area){
   if(!flora_matching_checking(area.light, flora.light) && flora.light != -1)
     return 0;
 
-  if(!flora_matching_checking(area.moistness, flora.moistness) && flora.moistness != -1)
+  if(!flora_matching_checking(area.moisture, flora.moisture) && flora.moisture != -1)
     return 0;
 
   if(!flora_matching_checking(area.nutrient, flora.nutrient) && flora.nutrient != -1)
     return 0;
 
-  if(!flora_matching_checking(area.pH, flora.pH) && flora.pH != -1)
+  if(!flora_matching_checking(area.calcium, flora.calcium) && flora.calcium != -1)
     return 0;
 
   return 1;
@@ -189,8 +189,8 @@ void print_flora_array(struct flora *flora) {
     if (strcmp(flora[i].latinName, "") != 0) {
       printf("%-40s | %-40s | %2d | %2d | %2d | %2d | %2d | %2d",
       flora[i].danishName, flora[i].latinName, flora[i].lifespan,
-      flora[i].heaviness, flora[i].light, flora[i].pH,
-      flora[i].nutrient, flora[i].moistness);
+      flora[i].heaviness, flora[i].light, flora[i].calcium,
+      flora[i].nutrient, flora[i].moisture);
 
       if (flora[i].mfoTypes[mfoBraemmer]) {
         printf(" | Godkendt til MFO-braemmer");

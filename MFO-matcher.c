@@ -29,9 +29,9 @@ void RunAllTests(void);
 struct area {
   int heaviness;
   int light;
-  int pH;
+  int calcium;
   int nutrient;
-  int moistness;
+  int moisture;
   int totalArea;
   int mfoArea;
 };
@@ -60,9 +60,9 @@ struct flora {
   int lifespan;
   int heaviness;
   int light;
-  int pH;
+  int calcium;
   int nutrient;
-  int moistness;
+  int moisture;
   /*
   mfoTypes is boolean:
   mfoTypes[mfoBraemmer] is approved for MFO-braemmer
