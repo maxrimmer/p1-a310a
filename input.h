@@ -22,8 +22,8 @@ struct area read_input(void) {
   printf("\nIndtast omraadet du oensker omlagt til MFO's stoerrelse i ha. (decimaltal):\n");
   area.mfoArea = get_input(0, 0, 0);
 
-  printf("\nIndtast MFO arealets jords tunghed. (1-9, heltal):\n");
-  area.heaviness = get_input(1, 1, 9);
+  printf("\nIndtast MFO arealets jords tunghed. (1-10, heltal):\n");
+  area.heaviness = get_input(1, 1, 10);
 
   printf("\nIndtast MFO arealets jords lystal. (1-9, heltal):\n");
   area.light = get_input(1, 1, 9);

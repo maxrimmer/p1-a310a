@@ -17,6 +17,15 @@ void create_output(struct matched_flora *matched_flora, struct area area) {
   FILE *output_file;
   output_file = fopen (OUTPUT_FILE_NAME, "w+");
 
+  printf("Foelgende planter kan plantes i det specificerede areal. Planterne er sorteret  \n"
+         "efter deres nytte for det truede insektliv paa den danske roedliste. Bogstaverne\n"
+         "i parantes er insektets roedliste kategori. RE - Regionalt Uddoed, CR - Kritisk \n"
+         "truet, EN - Truet, VU - Saarbar, NT - Naesten truet\n");
+  fprintf(output_file, "Foelgende planter kan plantes i det specificerede areal. Planterne er sorteret  \n"
+                       "efter deres nytte for det truede insektliv paa den danske roedliste. Bogstaverne\n"
+                       "i parantes er insektets roedliste kategori. RE - Regionalt Uddoed, CR - Kritisk \n"
+                       "truet, EN - Truet, VU - Saarbar, NT - Naesten truet\n");
+
   mfo_area_percentage (area, output_file);
   printf("%-40s | %-54s | %s\n", "Plantens navn", "MFO-omraader planten er godkendt til", "Insekter planten gavner");
   fprintf(output_file, "%-40s | %-54s | %s\n", "Plantens navn", "MFO-omraader planten er godkendt til", "Insekter planten gavner");
@@ -133,4 +142,5 @@ void mfo_area_percentage (struct area area, FILE *output_file){
   float procent_of_mfo = 0;
   procent_of_mfo = (float) area.mfoArea / (float) area.totalArea * 100;
   printf("Omraadet omlagt til MFO er %.2f procent af totale det areal.\n", procent_of_mfo);
+  fprintf(output_file, "Omraadet omlagt til MFO er %.2f procent af totale det areal.\n", procent_of_mfo);
 }
