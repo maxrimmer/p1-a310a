@@ -101,7 +101,7 @@ int compFunc (const void *a, const void *b) {
 
 int mfo_types_sum(int mfoTypes[3]) {
   int i, sum = 0;
-  for (i = 0; i < 2; i++) {
+  for (i = 0; i < 3; i++) {
     sum += mfoTypes[i];
   }
 
