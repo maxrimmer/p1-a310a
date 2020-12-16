@@ -214,6 +214,30 @@ void TestIntMfoTypesSumTrueValidInput(CuTest *tc) {
   CuAssertIntEquals(tc, expected, input);
 }
 
+void TestIntIsMatchFloraTrueValid(CuTest *tc) {
+       struct flora inputFlora = {"Hoer","Linum usitatissimum",3,2,8,6,6,5};
+       struct area inputArea = {2,7,5,6,5,5,5};
+       int input, expected = 1;
+       input = is_match_flora(inputFlora, inputArea);
+       CuAssertIntEquals(tc, expected, input);
+}
+
+void TestIntIsMatchFloraFalseValid(CuTest *tc) {
+       struct flora inputFlora = {"Hoer","Linum usitatissimum",3,2,8,6,6,5};
+       struct area inputArea = {2,1,1,1,1,5,5};
+       int input, expected = 0;
+       input = is_match_flora(inputFlora, inputArea);
+       CuAssertIntEquals(tc, expected, input);
+}
+
+void TestIntIsMatchFloraFalseInvalid(CuTest *tc) {
+       struct flora inputFlora = {"Hoer","Linum usitatissimum",3,-3,8,-2,6,5};
+       struct area inputArea = {2,8,6,6,5,5,5};
+       int input, expected = 0;
+       input = is_match_flora(inputFlora, inputArea);
+       CuAssertIntEquals(tc, expected, input);
+}
+
 CuSuite* StrUtilGetSuite() {
    CuSuite* suite = CuSuiteNew();
    SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
@@ -234,6 +258,11 @@ CuSuite* StrUtilGetSuite() {
    /* mfo_types_sum */
    SUITE_ADD_TEST(suite, TestIntMfoTypesSumTrueValidInput);
    SUITE_ADD_TEST(suite, TestIntMfoTypesSumFalseValidInput);
+   
+   /*is_match_flora*/
+   SUITE_ADD_TEST(suite, TestIntIsMatchFloraTrueValid);
+   SUITE_ADD_TEST(suite, TestIntIsMatchFloraFalseValid);
+   SUITE_ADD_TEST(suite, TestIntIsMatchFloraFalseInvalid);
 
    return suite;
 }
