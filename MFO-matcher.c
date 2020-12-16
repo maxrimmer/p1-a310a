@@ -151,19 +151,67 @@ void TestStrEndangerName(CuTest *tc) {
        CuAssertStrEquals(tc, expected, input);
 }
 
-void TestIntAprovedForMFOBestoeverbrak(CuTest *tc) {
-       char* inputValue = strdup("KNAUTIA ARVENSIS");
-       int input = is_approved_for_mfo_bestoeverbrak(inputValue);
-       int expected = 1;
-       CuAssertIntEquals(tc, expected, input);
+void TestIntAprovedForMFOBestoeverbrakTrueValid(CuTest *tc) {
+  char* inputValue = strdup("KNAUTIA ARVENSIS");
+  int input = is_approved_for_mfo_bestoeverbrak(inputValue);
+  int expected = 1;
+  CuAssertIntEquals(tc, expected, input);
+}
+
+void TestIntAprovedForMFOBestoeverbrakFalseInvalid(CuTest *tc) {
+  char* inputValue = strdup("       ");
+  int input = is_approved_for_mfo_bestoeverbrak(inputValue);
+  int expected = 0;
+  CuAssertIntEquals(tc, expected, input);
+}
+
+void TestIntAprovedForMFOBestoeverbrakFalseValid(CuTest *tc) {
+  char* inputValue = strdup("CENTAUREA CYANUS");
+  int input = is_approved_for_mfo_bestoeverbrak(inputValue);
+  int expected = 1;
+  CuAssertIntEquals(tc, expected, input);
 }
 
 void TestStrGetPlantFamilyName(CuTest *tc) {
-       char* inputValue = strdup("Magnus Ditlev");
-       char input[20];
-       char *expected =  strdup("Magnus");
-       get_plant_family_name(inputValue, input);
-       CuAssertStrEquals(tc, expected, input);
+  char* inputValue = strdup("Magnus Ditlev");
+  char input[20];
+  char *expected =  strdup("Magnus");
+  get_plant_family_name(inputValue, input);
+  CuAssertStrEquals(tc, expected, input);
+}
+
+/* is_approved_for_mfo_braemme_or_mfo_brak */
+void TestIntApprovedForMFOBraemmeFalseValidInput(CuTest *tc) {
+  int input = is_approved_for_mfo_braemme_or_mfo_brak(2);
+  int expected =  0;
+  CuAssertIntEquals(tc, expected, input);
+}
+
+void TestIntApprovedForMFOBraemmeTrueValidInput(CuTest *tc) {
+  int input = is_approved_for_mfo_braemme_or_mfo_brak(1);
+  int expected =  1;
+  CuAssertIntEquals(tc, expected, input);
+}
+
+void TestIntApprovedForMFOBraemmeFalseInvalidInput(CuTest *tc) {
+  int input = is_approved_for_mfo_braemme_or_mfo_brak(-1);
+  int expected =  0;
+  CuAssertIntEquals(tc, expected, input);
+}
+
+/* mfo_types_sum */
+void TestIntMfoTypesSumFalseValidInput(CuTest *tc) {
+  int inputArray[3] = {0,0,0};
+  int input = mfo_types_sum(inputArray);
+  int expected =  0;
+  CuAssertIntEquals(tc, expected, input);
+}
+
+void TestIntMfoTypesSumTrueValidInput(CuTest *tc) {
+  int inputArray[3] = {1,1,1};
+  int input = mfo_types_sum(inputArray);
+  int expected =  3;
+  CuAssertIntEquals(tc, expected, input);
 }
 
 CuSuite* StrUtilGetSuite() {
@@ -171,8 +219,22 @@ CuSuite* StrUtilGetSuite() {
    SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
    SUITE_ADD_TEST(suite, TestStrToUpperSpecialChars);
    SUITE_ADD_TEST(suite, TestStrEndangerName);
-   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrak);
    SUITE_ADD_TEST(suite, TestStrGetPlantFamilyName);
+
+   /* is_approved_for_mfo_bestoeverbrak */
+   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakFalseValid);
+   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakFalseInvalid);
+   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakTrueValid);
+
+   /* is_approved_for_mfo_braemme_or_mfo_brak */
+   SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeTrueValidInput);
+   SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeFalseValidInput);
+   SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeFalseInvalidInput);
+
+   /* mfo_types_sum */
+   SUITE_ADD_TEST(suite, TestIntMfoTypesSumTrueValidInput);
+   SUITE_ADD_TEST(suite, TestIntMfoTypesSumFalseValidInput);
+
    return suite;
 }
 /* End CUTests */
@@ -200,6 +262,6 @@ int in_array(char* needle, const char** haystack, int size) {
       return 1;
     }
   }
-  
+
   return 0;
 }

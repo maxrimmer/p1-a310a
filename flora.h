@@ -95,11 +95,7 @@ void add_mfo_to_flora () {
 }
 
 int is_approved_for_mfo_braemme_or_mfo_brak (int lifespan) {
-  if (lifespan == 1) {
-    return 1;
-  }
-
-  return 0;
+  return (lifespan == 1);
 }
 
 int is_approved_for_mfo_bestoeverbrak (char* latinName) {
@@ -205,7 +201,7 @@ void print_flora_array() {
       if (flora[i].mfoTypes[mfoBestoeverbrak]) {
         printf(" | Godkendt til MFO-blomster- og bestoeverbrak");
       }
-      
+
       printf("\n");
     }
   }
