@@ -28,12 +28,12 @@ void RunAllTests(void);
 /* Struct definitions */
 struct area {
   int heaviness;
-  int light;
-  int calcium;
-  int nutrient;
-  int moisture;
-  int totalArea;
-  int mfoArea;
+  int light;      /*ellenberg scale*/
+  int calcium;    /*ellenberg scale*/
+  int nutrient;   /*ellenberg scale*/
+  int moisture;   /*ellenberg scale*/
+  int totalArea;  /*m^2*/
+  int mfoArea;    /*m^2*/
 };
 
 enum mfoTypes {
@@ -57,12 +57,12 @@ enum red_list_categories {
 struct flora {
   char danishName[40];
   char latinName[40];
-  int lifespan;
+  int lifespan;        /*years*/
   int heaviness;
-  int light;
-  int calcium;
-  int nutrient;
-  int moisture;
+  int light;           /*ellenberg scale*/
+  int calcium;         /*ellenberg scale*/
+  int nutrient;        /*ellenberg scale*/
+  int moisture;        /*ellenberg scale*/
   /*
   mfoTypes is boolean:
   mfoTypes[mfoBraemmer] is approved for MFO-braemmer
