@@ -70,19 +70,19 @@ int compFunc (const void *a, const void *b) {
   matched_flora1_hash = hash(matched_flora1->floraLatinName);
   matched_flora2_hash = hash(matched_flora2->floraLatinName);
 
-  /* Most approved MFO types go first */
-  if (mfo_types_sum(flora[matched_flora1_hash].mfoTypes) > mfo_types_sum(flora[matched_flora2_hash].mfoTypes)) {
-    return -1;
-  }
-  if (mfo_types_sum(flora[matched_flora2_hash].mfoTypes) > mfo_types_sum(flora[matched_flora1_hash].mfoTypes)) {
-    return 1;
-  }
-
   /* Supporting the most vulnerable fauna goes first */
   if (vulnerability_average(matched_flora1) < vulnerability_average(matched_flora2)) {
     return -1;
   }
   if (vulnerability_average(matched_flora2) < vulnerability_average(matched_flora1)) {
+    return 1;
+  }
+
+  /* Most approved MFO types go first */
+  if (mfo_types_sum(flora[matched_flora1_hash].mfoTypes) > mfo_types_sum(flora[matched_flora2_hash].mfoTypes)) {
+    return -1;
+  }
+  if (mfo_types_sum(flora[matched_flora2_hash].mfoTypes) > mfo_types_sum(flora[matched_flora1_hash].mfoTypes)) {
     return 1;
   }
 
@@ -122,9 +122,9 @@ void print_mfo_types(int mfoTypes[3], FILE *output_file) {
   } else if (mfoTypes[1]) {
     mfoPrint = "MFO-braemmer, MFO-brak";
   } else {
-    mfoPrint = "";
+    mfoPrint = "MFO-braemmer, MFO-brak, bemaerk fleraarig plante";
   }
-  
+
   printf(" %-54s |", mfoPrint);
   fprintf(output_file, " %-54s |", mfoPrint);
 }
