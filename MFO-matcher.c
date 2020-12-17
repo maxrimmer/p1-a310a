@@ -258,7 +258,7 @@ CuSuite* StrUtilGetSuite() {
    /* mfo_types_sum */
    SUITE_ADD_TEST(suite, TestIntMfoTypesSumTrueValidInput);
    SUITE_ADD_TEST(suite, TestIntMfoTypesSumFalseValidInput);
-   
+
    /*is_match_flora*/
    SUITE_ADD_TEST(suite, TestIntIsMatchFloraTrueValid);
    SUITE_ADD_TEST(suite, TestIntIsMatchFloraFalseValid);
@@ -277,7 +277,7 @@ int hash(char *str) {
     hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
   }
   /* Hash is trimmed to the HASHTABLE_SIZE */
-  hash %= FLORA_HASH_ARRAY_SIZE;
+  hash %= HASH_ARRAY_SIZE;
 
   return hash;
 }
