@@ -13,7 +13,7 @@ struct area read_input(void) {
   "foreslaa mulige planter der kan udplantes i arealet samt roedlistede\n"
   "arter der ville have gavn af disse planter. Arealoplysningerne skal \n"
   "oplyses ud fra Ellenbergs indikatorvaerdier, information om disse   \n"
-  "kan findes paa kortlink.dk/29ppc , undtagelsen er jordens tunghed   \n"
+  "kan findes paa shorturl.at/fmoJ8 , undtagelsen er jordens tunghed   \n"
   "hvor 1 er sandjord, 9 er lerjord, og 5 er midt i mellem             \n");
 
   printf("\nIndtast dit omdriftsareals stoerrelse i ha. (decimaltal):\n");
