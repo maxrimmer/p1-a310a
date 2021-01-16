@@ -4,7 +4,7 @@ int inputVerification(int input, int lower_boundry, int upper_boundry);
 int ha_to_m2_converter(float ha);
 void error_if_input_is_outside_range(int checker);
 int get_input(int is_ellenberg_value, int lower_boundry, int upper_boundry);
-int value_verification (float input, int is_ellenberg_value, float lower_boundry, float upper_boundry);
+int value_verification (float input, int is_area_size, float lower_boundry, float upper_boundry);
 
 struct area read_input(void) {
   struct area area;
@@ -63,8 +63,8 @@ void error_if_input_is_outside_range(int checker) {
   }
 }
 
-int value_verification(float input, int is_ellenberg_value, float lower_boundry, float upper_boundry) {
-  if (is_ellenberg_value == 1) {
+int value_verification(float input, int is_area_size, float lower_boundry, float upper_boundry) {
+  if (is_area_size == 1) {
     return !inputVerification(input, lower_boundry, upper_boundry);
   }
 
