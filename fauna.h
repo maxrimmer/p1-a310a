@@ -12,7 +12,7 @@ char *endanger_name (enum red_list_categories endangerlvl);
 void read_plants (struct fauna *fauna, char *line);
 void fauna_matching (struct matched_flora *matched_flora);
 struct matched_flora add_fauna_to_matched_flora(char* faunaLatinName, struct matched_flora matched_flora);
-void get_plant_family_name (const char* latinName, char familyName[40]);
+void get_plant_family_name (const char* latinName, char familyName[MAX_NAME_LENGTH]);
 void print_matched_flora(struct matched_flora *matched_flora);
 
 
@@ -61,7 +61,7 @@ void read_fauna_database() {
       read_fauna.endangerlvl = (enum red_list_categories)danger_category;
       /*allocate space for strings and set them to be empty*/
       for (i = 0; i < FAUNA_PLANTS_ARRAY_SIZE; i++) {
-        if ((read_fauna.plants[i] = (char *)malloc(40*sizeof(char))) == NULL) {
+        if ((read_fauna.plants[i] = (char *)malloc(MAX_NAME_LENGTH*sizeof(char))) == NULL) {
           printf("Malloc fail");
           exit(EXIT_FAILURE);
         }
@@ -149,11 +149,11 @@ char *endanger_name (enum red_list_categories endangerlvl) {
 
 void fauna_matching (struct matched_flora *matched_flora) {
   int i, j, k;
-  char plantFamilyName[40];
+  char plantFamilyName[MAX_NAME_LENGTH];
 
   /* Set matched_flora.fauna to all empty strings */
   for (i = 0; i < MAX_NUMBER_OF_MATCHES; i++) {
-    for (j = 0; j < 10; j++) {
+    for (j = 0; j < MAX_FLORA_PER_FAUNA; j++) {
       strcpy(matched_flora[i].matchedFaunaLatinName[j], "");
     }
   }
@@ -166,7 +166,7 @@ void fauna_matching (struct matched_flora *matched_flora) {
       while (strcmp(fauna[i].plants[j], "") != 0) {
         /* For each matched_flora */
         k = 0;
-        while (strcmp(matched_flora[k].floraLatinName, "") != 0 && k < MAX_NUMBER_OF_MATCHES) {
+        while (strcmp(matched_flora[k].floraLatinName, "") != 0 && k < MAX_FLORA_PER_FAUNA) {
           get_plant_family_name(matched_flora[k].floraLatinName, plantFamilyName);
           /* If match between matched_flora.floraLatinName and fauna.plants[j] */
           if (strcmp(matched_flora[k].floraLatinName, fauna[i].plants[j]) == 0) {
@@ -191,10 +191,10 @@ void fauna_matching (struct matched_flora *matched_flora) {
 struct matched_flora add_fauna_to_matched_flora(char* faunaLatinName, struct matched_flora matched_flora) {
   int i = 0;
   /*continues until a empty string is found*/
-  while (i <= 10 && (strcmp(matched_flora.matchedFaunaLatinName[i], "") != 0)) {
+  while (i <= MAX_FLORA_PER_FAUNA && (strcmp(matched_flora.matchedFaunaLatinName[i], "") != 0)) {
     i++;
   }
-  if (i == 10) {
+  if (i == MAX_FLORA_PER_FAUNA) {
     printf("Error: matched_flora out of memorry for fauna \n");
     exit(EXIT_FAILURE);
   }
@@ -227,7 +227,7 @@ void print_matched_flora(struct matched_flora *matched_flora) {
     if (strcmp(matched_flora[i].floraLatinName, "") != 0) {
       printf("%-40s", matched_flora[i].floraLatinName);
       j = 0;
-      while (strcmp(matched_flora[i].matchedFaunaLatinName[j], "") != 0 && j < 10) {
+      while (strcmp(matched_flora[i].matchedFaunaLatinName[j], "") != 0 && j < MAX_FLORA_PER_FAUNA) {
         printf(" | %-40s", matched_flora[i].matchedFaunaLatinName[j]);
         j++;
       }
@@ -235,6 +235,6 @@ void print_matched_flora(struct matched_flora *matched_flora) {
       printf("\n");
     }
   }
-  
+
   printf("\n");
 }
