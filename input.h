@@ -46,6 +46,7 @@ int get_input(int is_area_size, int lower_boundry, int upper_boundry) {
   do {
     error_if_input_is_outside_range(checker);
     checker = 1;
+    fflush(stdin);
     scanf(" %f", &input);
   } while(value_verification(input, is_area_size, lower_boundry, upper_boundry));
   /*if it isn't a ellenberg value, then it needs to be converted from ha to m2*/
