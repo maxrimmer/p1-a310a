@@ -16,6 +16,8 @@ Aalborg Universitet: Datalogi 1. semester
 
 #define HASH_ARRAY_SIZE 1000
 #define MAX_NUMBER_OF_MATCHES 100
+#define MAX_NAME_LENGTH 40
+#define MAX_FLORA_PER_FAUNA 10
 
 /* Prototypes */
 void to_upper (char *capitalise);
@@ -55,8 +57,8 @@ enum red_list_categories {
 };
 
 struct flora {
-  char danishName[40];
-  char latinName[40];
+  char danishName[MAX_NAME_LENGTH];
+  char latinName[MAX_NAME_LENGTH];
   int lifespan;        /*years*/
   int heaviness;
   int light;           /*ellenberg scale*/
@@ -73,13 +75,13 @@ struct flora {
 };
 
 struct matched_flora {
-  char floraLatinName[40];
-  char matchedFaunaLatinName[10][40];
+  char floraLatinName[MAX_NAME_LENGTH];
+  char matchedFaunaLatinName[MAX_FLORA_PER_FAUNA][MAX_NAME_LENGTH];
 };
 
 struct fauna {
-  char danishName[40];
-  char latinName[40];
+  char danishName[MAX_NAME_LENGTH];
+  char latinName[MAX_NAME_LENGTH];
   enum red_list_categories endangerlvl;
   char *plants[MAX_NUMBER_OF_MATCHES];
 
@@ -122,33 +124,61 @@ int main(int argc, char const *argv[]) {
 
 /* Function to capitalise a string*/
 void to_upper(char *capitalise) {
-    int i = 0;
-    while (capitalise[i] != '\0'){
-        capitalise[i] = toupper(capitalise[i]);
-        i++;
-    }
+  int i = 0;
+  while (capitalise[i] != '\0'){
+      capitalise[i] = toupper(capitalise[i]);
+      i++;
+  }
 }
+
+/* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
+int hash(char *str) {
+  unsigned long hash = 5381;
+  int c;
+
+  while ((c = *str++)) {
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  }
+  /* Hash is trimmed to the HASHTABLE_SIZE */
+  hash %= HASH_ARRAY_SIZE;
+
+  return hash;
+}
+
+/*test if a string is in a array of strings*/
+int in_array(char* needle, const char** haystack, int size) {
+  int i;
+
+  for (i = 0; i < size; i++) {
+    if (strcmp(haystack[i], needle) == 0) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
 
 /* CuTests */
 void TestStrToUpperAlpha(CuTest *tc) {
-       char* input = strdup("hello world");
-       char* expected = "HELLO WORLD";
-       to_upper(input);
-       CuAssertStrEquals(tc, expected, input);
+  char* input = strdup("hello world");
+  char* expected = "HELLO WORLD";
+  to_upper(input);
+  CuAssertStrEquals(tc, expected, input);
 }
 
 void TestStrToUpperSpecialChars(CuTest *tc) {
-       char* input = strdup("HeLoLo @@ ## test 1234");
-       char* expected = "HELOLO @@ ## TEST 1234";
-       to_upper(input);
-       CuAssertStrEquals(tc, expected, input);
+  char* input = strdup("HeLoLo @@ ## test 1234");
+  char* expected = "HELOLO @@ ## TEST 1234";
+  to_upper(input);
+  CuAssertStrEquals(tc, expected, input);
 }
 
 void TestStrEndangerName(CuTest *tc) {
-       enum red_list_categories inputValue = RE;
-       char* input = endanger_name(inputValue);
-       char* expected = "RE";
-       CuAssertStrEquals(tc, expected, input);
+  enum red_list_categories inputValue = RE;
+  char* input = endanger_name(inputValue);
+  char* expected = "RE";
+  CuAssertStrEquals(tc, expected, input);
 }
 
 void TestIntAprovedForMFOBestoeverbrakTrueValid(CuTest *tc) {
@@ -215,82 +245,55 @@ void TestIntMfoTypesSumTrueValidInput(CuTest *tc) {
 }
 
 void TestIntIsMatchFloraTrueValid(CuTest *tc) {
-       struct flora inputFlora = {"Hoer","Linum usitatissimum",3,2,8,6,6,5};
-       struct area inputArea = {2,7,5,6,5,5,5};
-       int input, expected = 1;
-       input = is_match_flora(inputFlora, inputArea);
-       CuAssertIntEquals(tc, expected, input);
+  struct flora inputFlora = {"Hoer","Linum usitatissimum",3,2,8,6,6,5};
+  struct area inputArea = {2,7,5,6,5,5,5};
+  int input, expected = 1;
+  input = is_match_flora(inputFlora, inputArea);
+  CuAssertIntEquals(tc, expected, input);
 }
 
 void TestIntIsMatchFloraFalseValid(CuTest *tc) {
-       struct flora inputFlora = {"Hoer","Linum usitatissimum",3,2,8,6,6,5};
-       struct area inputArea = {2,1,1,1,1,5,5};
-       int input, expected = 0;
-       input = is_match_flora(inputFlora, inputArea);
-       CuAssertIntEquals(tc, expected, input);
+  struct flora inputFlora = {"Hoer","Linum usitatissimum",3,2,8,6,6,5};
+  struct area inputArea = {2,1,1,1,1,5,5};
+  int input, expected = 0;
+  input = is_match_flora(inputFlora, inputArea);
+  CuAssertIntEquals(tc, expected, input);
 }
 
 void TestIntIsMatchFloraFalseInvalid(CuTest *tc) {
-       struct flora inputFlora = {"Hoer","Linum usitatissimum",3,-3,8,-2,6,5};
-       struct area inputArea = {2,8,6,6,5,5,5};
-       int input, expected = 0;
-       input = is_match_flora(inputFlora, inputArea);
-       CuAssertIntEquals(tc, expected, input);
+  struct flora inputFlora = {"Hoer","Linum usitatissimum",3,-3,8,-2,6,5};
+  struct area inputArea = {2,8,6,6,5,5,5};
+  int input, expected = 0;
+  input = is_match_flora(inputFlora, inputArea);
+  CuAssertIntEquals(tc, expected, input);
 }
 
 CuSuite* StrUtilGetSuite() {
-   CuSuite* suite = CuSuiteNew();
-   SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
-   SUITE_ADD_TEST(suite, TestStrToUpperSpecialChars);
-   SUITE_ADD_TEST(suite, TestStrEndangerName);
-   SUITE_ADD_TEST(suite, TestStrGetPlantFamilyName);
+  CuSuite* suite = CuSuiteNew();
+  SUITE_ADD_TEST(suite, TestStrToUpperAlpha);
+  SUITE_ADD_TEST(suite, TestStrToUpperSpecialChars);
+  SUITE_ADD_TEST(suite, TestStrEndangerName);
+  SUITE_ADD_TEST(suite, TestStrGetPlantFamilyName);
 
-   /* is_approved_for_mfo_bestoeverbrak */
-   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakFalseValid);
-   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakFalseInvalid);
-   SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakTrueValid);
+  /* is_approved_for_mfo_bestoeverbrak */
+  SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakFalseValid);
+  SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakFalseInvalid);
+  SUITE_ADD_TEST(suite, TestIntAprovedForMFOBestoeverbrakTrueValid);
 
-   /* is_approved_for_mfo_braemme_or_mfo_brak */
-   SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeTrueValidInput);
-   SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeFalseValidInput);
-   SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeFalseInvalidInput);
+  /* is_approved_for_mfo_braemme_or_mfo_brak */
+  SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeTrueValidInput);
+  SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeFalseValidInput);
+  SUITE_ADD_TEST(suite, TestIntApprovedForMFOBraemmeFalseInvalidInput);
 
-   /* mfo_types_sum */
-   SUITE_ADD_TEST(suite, TestIntMfoTypesSumTrueValidInput);
-   SUITE_ADD_TEST(suite, TestIntMfoTypesSumFalseValidInput);
+  /* mfo_types_sum */
+  SUITE_ADD_TEST(suite, TestIntMfoTypesSumTrueValidInput);
+  SUITE_ADD_TEST(suite, TestIntMfoTypesSumFalseValidInput);
 
-   /*is_match_flora*/
-   SUITE_ADD_TEST(suite, TestIntIsMatchFloraTrueValid);
-   SUITE_ADD_TEST(suite, TestIntIsMatchFloraFalseValid);
-   SUITE_ADD_TEST(suite, TestIntIsMatchFloraFalseInvalid);
+  /*is_match_flora*/
+  SUITE_ADD_TEST(suite, TestIntIsMatchFloraTrueValid);
+  SUITE_ADD_TEST(suite, TestIntIsMatchFloraFalseValid);
+  SUITE_ADD_TEST(suite, TestIntIsMatchFloraFalseInvalid);
 
-   return suite;
+  return suite;
 }
 /* End CUTests */
-
-/* Hash function djb2 taken from http://www.cse.yorku.ca/~oz/hash.html */
-int hash(char *str) {
-  unsigned long hash = 5381;
-  int c;
-
-  while ((c = *str++)) {
-    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-  }
-  /* Hash is trimmed to the HASHTABLE_SIZE */
-  hash %= HASH_ARRAY_SIZE;
-
-  return hash;
-}
-
-/*test if a string is in a array of strings*/
-int in_array(char* needle, const char** haystack, int size) {
-  int i;
-
-  for (i = 0; i < size; i++) {
-    if (strcmp(haystack[i], needle) == 0) {
-      return 1;
-    }
-  }
-
-  return 0;
-}

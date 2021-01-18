@@ -41,7 +41,7 @@ void create_output(struct matched_flora *matched_flora, struct area area) {
       print_mfo_types(flora[floraHash].mfoTypes, output_file);
 
       j = 0;
-      while (strcmp(matched_flora[i].matchedFaunaLatinName[j], "") != 0 && j < 10) {
+      while (strcmp(matched_flora[i].matchedFaunaLatinName[j], "") != 0 && j < MAX_FLORA_PER_FAUNA) {
         int faunaHash = hash(matched_flora[i].matchedFaunaLatinName[j]);
         if (j != 0) {
           printf(",");
@@ -110,7 +110,7 @@ int mfo_types_sum(int mfoTypes[3]) {
 
 float vulnerability_average(struct matched_flora *matched_flora) {
   int i = 0, sum = 0;
-  while (strcmp(matched_flora->matchedFaunaLatinName[i], "") != 0 && i < 10) {
+  while (strcmp(matched_flora->matchedFaunaLatinName[i], "") != 0 && i < MAX_FLORA_PER_FAUNA) {
     int faunaHash = hash(matched_flora->matchedFaunaLatinName[i]);
     sum += fauna[faunaHash].endangerlvl;
     i++;
